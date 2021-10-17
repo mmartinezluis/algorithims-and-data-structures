@@ -42,9 +42,9 @@ class DoublyLinkedList {
     //         source.prev = nextReference;             Connect source with nextReference to the right
     //         source = nextReference;                  SHIFT the source one step to the right;
 
-    //                              previous    source   nextReference
+    //                                        previous    source   nextReference
     //                               | A | <--> | B | <--> | C | <--> | D |
-    // First time through:            null       head      a node 
+    // Updated nodes:                 null       tail      a node     a node 
 
     reverse(){
         // Store the reference node in the source variable;
