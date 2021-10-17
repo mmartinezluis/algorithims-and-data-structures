@@ -71,7 +71,9 @@ class BinarySearchTree {
     }
 
     //    Depth-first search         Preorder
-    DFS(){
+    // Visit the node first, then visit the left side, then the left side and the right side of left brahch
+    // then visit the right branch, then the left side of the brahch, then the right side
+    DFSPreorder(){
         let node = this.root;
         let result = [];
         function traverse(node){
@@ -81,6 +83,36 @@ class BinarySearchTree {
         }
         traverse(node)
         return result;
+    }
+
+// Start on left branch: Visit the bottom left leaf, then the right leaf, then the parent;
+// When done with left branch, do the same with right branch;
+// Finally add the root of the tree
+    DFSPostOrder(){
+        let node = this.root;
+        let result = [];
+        function traverse(node){
+            if(node.left) traverse(node.left)
+            if(node.right) traverse(node.right);
+            result.push(node.val);
+        }
+        traverse(node);
+        return result;
+    }
+
+    // Start on left branch: visit the bottom left leaf; then the parent, then the right leaf
+    // when done with left branch, push the root node;
+    // proceed with right branch as with the left branch
+    DFSInOrder(){
+        let node = this.root,
+            data = [];
+        function traverse(node){
+            node.left && traverse(node.left);
+            data.push(node);
+            node.right && traverse(node.right);
+        }
+        traverse(node);
+        return data;
     }
 }
 
