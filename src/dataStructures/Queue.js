@@ -4,36 +4,32 @@ class Node {
         this.next = null;
     }
 }
-
-// Stack is a LIFO data structure: Last In First Out
-// the last element added to the stack is the first element to be removed from the stack
-class Stack {
+// FIFO: first in first out
+class Queue {
     constructor(){
         this.first = null;
         this.last = null;
         this.size = 0;
     }
-    push(val){
-        let node = new Node(val);
+    enqueue(val){
+        let newNode = new Node(val);
         if(!this.first){
-            this.first = node;
-            this.last = node;
+            this.first = newNode;
+            this.last = newNode;
         } else {
-            let temp = this.first;
-            this.first = node;
-            this.first.next = temp;
+            this.last.next = newNode;
+            this.last = newNode;
         }
         return ++this.size;
     }
-    pop(){
-        if(this.size === 0) return null;
+    dequeue(){
+        if(this.size ===0) return null;
         let temp = this.first;
         if(this.first === this.last){
             this.last = null;
-        }  
+        }
         this.first = this.first.next;
         this.size--;
         return temp.val;
     }
-
 }
