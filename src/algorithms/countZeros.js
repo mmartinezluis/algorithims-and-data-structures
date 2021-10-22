@@ -1,4 +1,4 @@
-// she the Divide and Conquer problem solving pattern
+// Uses the Divide and Conquer problem solving pattern
 function countZeroes(arr){
     let i = 0;
     let j = arr.length-1;
