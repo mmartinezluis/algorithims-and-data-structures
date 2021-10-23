@@ -1,5 +1,5 @@
 // Lggic: First, find the index of rotation; thss will aloow us to split the array in two SORTED sub arrays;
-// note: the index of rotation is the maximum value in the array
+// note: the index of rotation is also the maximum value in the array
 // then applly binary search on each sub array to see if the given value is found in any of the subarrays;
 // if value is found in first subarray, binary rearch function alone takes care of returning the corect index;
 // if values is found on second subarray, we need to start counting from the partition point (the rotatedIndex)
