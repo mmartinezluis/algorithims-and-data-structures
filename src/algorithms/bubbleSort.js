@@ -53,3 +53,26 @@ function bubbleSortOptimized(arr){
 function swap(arr, index1, index2){
     [ arr[index1], arr[index2] ] = [ arr[index2], arr[index1] ]
 }
+
+
+// Bubblesort with comparison function
+
+function bubbleSortWithComparator(arr, comparator){
+    if( typeof(comparator) !== 'function' ) comparator = compare;
+    for(let i = 0; i < arr.length; i++){
+        for(let j=0; j < arr.length; j++){
+            if(comparator(arr[j], arr[j+1]) > 0 ) swap(arr, j, j+1);
+        }
+    }
+    function swap(arr, index1, index2) {
+        [ arr[index1], arr[index2] ] = [ arr[index2], arr[index1] ];
+    }
+    return arr;
+  }
+  
+  function compare(a, b) {
+      if ( a < b) { return -1;}
+      else if ( a > b ) { return 1;}
+      return 0;
+  }
+  
