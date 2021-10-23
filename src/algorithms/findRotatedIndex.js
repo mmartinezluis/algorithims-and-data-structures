@@ -2,7 +2,7 @@
 // note: the index of rotation is also the maximum value in the array;
 // then applly binary search on each subarray to see if the given value is found in any of the subarrays;
 // if value is found in first subarray, binary rearch function alone takes care of returning the correct index;
-// if vales is found on second subarray,we need to start counting from the partition point (the rotatedIndex)
+// if value is found on second subarray, we need to start counting from the partition point (the rotatedIndex)
 // and add 1 to the returned value of binary search function to fix the offset of the binary search result.
 
 // Time complexity: log(n) [for finding the rotated index] + log(n) [for binary search] = 2log(n) = log(n)
@@ -13,13 +13,14 @@ function findRotatedIndex(arr, value){
     let middle;
     if (arr[i] === value) return i;     //edge case
     if (arr[j] === value) return j;     //edge case
+    // the while loop finds the index of rotation; at end of loop the index of rotation
+    // will be any of i or j
     while( i!==j ){
         middle = Math.floor((i+j)/2);
         if(arr[middle] > arr[i]){
             i = middle;
         } else j = middle;
     }
-  
     let rotatedIndex = i;
     if (value > arr[rotatedIndex]) return -1;
     if (value === arr[rotatedIndex]) return rotatedIndex;
