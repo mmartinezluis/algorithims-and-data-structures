@@ -36,24 +36,39 @@ class BinarySearchTree {
         }
     }
 
-    find(val){
-        if(!this.root) return null;
-        let current = this.root,
-            found = false;
-        while(current && !found){
-            if(val < current.val){
-                current = current.left;
-            }
-            else if(val > current.val){
-                current= current.right;
-            }
-            else {
-                found = true;
+    find(value){
+        if(!this.root) return undefined;
+        let start = this.root;
+        while(true){
+            if(value === start.value) return start;
+            if(value < start.value){
+                if(!start.left) return undefined;
+                start = start.left;
+            } else {
+                if(!start.right) return undefined;
+                start = start.right;
             }
         }
-        if(!found) return false;
-        return current;
     }
+
+    // find(val){
+    //     if(!this.root) return null;
+    //     let current = this.root,
+    //         found = false;
+    //     while(current && !found){
+    //         if(val < current.val){
+    //             current = current.left;
+    //         }
+    //         else if(val > current.val){
+    //             current= current.right;
+    //         }
+    //         else {
+    //             found = true;
+    //         }
+    //     }
+    //     if(!found) return false;
+    //     return current;
+    // }
 
     // Breadth-first-search; collects all nodes horizontally;
     BFS(){

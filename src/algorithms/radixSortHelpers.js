@@ -14,3 +14,16 @@ function getDigit(num, i) {
     }
     return max;
   }
+
+  function radixSort(arr){
+    let maxDigitCount = mostDigits(arr);
+    for(let k =0; k < mostDigits.length; k++){
+      let digitBuckets = Array.from({length:10}, () => []);
+      for(let i=0; i < arr.length; i++){
+        let digit = getDit(arr, i);
+        digitBuckets[digit].push(nums[i])
+      }
+      nums = [].concat(...digitBuckets);
+    }
+    return nums;
+  }
