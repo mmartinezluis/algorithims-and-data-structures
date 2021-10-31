@@ -129,6 +129,56 @@ class BinarySearchTree {
         traverse(node);
         return data;
     }
+
+    remove(value){
+        const removeNode = (node, value) =>{
+ //            If the first node input passed to removeNode is empty means
+ //            that no tree was passed; return null; cannot remove from an empty tree
+             if(!node) return null;
+ //             If the current node's value matched the given value, proceed
+             if(value === node.value) {
+ //                 if the matching node is a leaf (no children), simply eliminate the node;
+                 if(!node.left && !node.right) return null;
+ //                 If the mathcing node has a right child only, return the right child; the child will replace the matching node;
+                 if(!node.left) return node.right;
+ //                 If the mathcing node has a left child, return the left child; the child will replace the matching node;
+                 if(!node.right) return node.left;
+ //                  Else if the matching node has two children, store the right subtree of the mathcing node in a variable (temp)                
+                 let temp = node.right;
+ //                 Iterate through the right subtre until finding the minimum value (located on the left brach)
+ //                 that is, find the minimum successor of the matching node;
+                 while(!temp.left){
+                     temp = temp.left;
+                 }
+ //                 Replace the value of the to be removed node with the value of the minimum successor (temp);
+                 node.value = temp.value;
+ //                 Update the right subtree of the to be romved node by deleting the temp node (which at this time is a repeated value in the binary search tree) 
+                 node.right = removeNode(node.right, temp.value)
+ //            If the current node's value is less than the desired value
+             } else if(value < node.value){
+ //                 Call 'removeNode' on the current node's left node; 
+ //                         if this node matches the desired value: [
+ //                                         if the node has no children, the node will be deleted
+ //                                         If the node has one child, it will be replaced with its child;
+ //                                         If the node has two children, it's VALUE will be raplaced with the value of the minimum successor; then the minimum successor will be deleted from the tree;
+ //                                      ]
+ //                         Otherwise (the node doesn't match with value) call 'removeNode' on the left child or the right child depending on value being less than or greater than the node's value
+                 node.left = removeNode(node.left, value);
+ //                  This 'node' is the root node!!! tricky!!!!! The return line is not executed until all iterations are completed 
+ //                      on the left child of the root node!!!!!
+                 return node;
+             } else {
+ //                 Same logit as for "value < node.value"
+                 node.right = removeNode(node.right, value);
+                 return node;
+             }
+         }
+ //      Update the tree by calling 'removeNode' on the tree to remove the desired node with the given 'value'
+         this.root = removeNode(this.root, value)
+     }
+
+
+
 }
 
 
