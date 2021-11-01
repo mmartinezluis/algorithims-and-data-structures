@@ -130,6 +130,7 @@ class BinarySearchTree {
         return data;
     }
 
+    // NOTE: the node constructor uses '.val'; '.value' needs to be changed to '.val' on the nodes for the below method to work;
     remove(value){
         const removeNode = (node, value) =>{
  //            If the first node input passed to removeNode is empty means
@@ -177,6 +178,47 @@ class BinarySearchTree {
          this.root = removeNode(this.root, value)
      }
 
+      // NOTE: the node constructor uses '.val'; '.value' needs to be changed to '.val' on the nodes for the below method to work;
+     remove2(value) {
+        const removeNode = (node, value) => {
+          if (!node) {
+            return null;
+          }
+      
+          if(value == node.value) {
+            if (!node.left && !node.right) {
+              return null;
+            }
+      
+            if (!node.left) {
+              return node.right;
+            }
+      
+            if (!node.right) {
+              return node.left;
+            }
+      
+            let temp = node.right;
+      
+            while(temp.left) {
+              temp = temp.left;
+            }
+      
+            node.value = temp.value;
+      
+            node.right = removeNode(node.right, temp.value);  
+      
+          } else if (value < node.value) {
+            node.left = removeNode(node.left, value);
+            return node;
+      
+          } else {
+            node.right = removeNode(node.right, value);
+            return node;
+          }
+        }
+        this.root = removeNode(this.root, value) 
+      }
 
      findSecondLargest() {
         if(!this.root) return undefined;
