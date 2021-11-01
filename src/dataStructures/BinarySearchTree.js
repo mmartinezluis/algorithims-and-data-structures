@@ -143,17 +143,17 @@ class BinarySearchTree {
                  if(!node.left) return node.right;
  //                 If the mathcing node has a left child, return the left child; the child will replace the matching node;
                  if(!node.right) return node.left;
- //                  Else if the matching node has two children, store the right subtree of the mathcing node in a variable (temp)                
+ //                 Else if the matching node has two children, store the right subtree of the mathcing node in a variable (temp)                
                  let temp = node.right;
  //                 Iterate through the right subtre until finding the minimum value (located on the left brach)
  //                 that is, find the minimum successor of the matching node;
-                 while(!temp.left){
+                 while(temp.left){
                      temp = temp.left;
                  }
  //                 Replace the value of the to be removed node with the value of the minimum successor (temp);
                  node.value = temp.value;
  //                 Update the right subtree of the to be romved node by deleting the temp node (which at this time is a repeated value in the binary search tree) 
-                 node.right = removeNode(node.right, temp.value)
+                 node.right = removeNode(node.right, temp.value);
  //            If the current node's value is less than the desired value
              } else if(value < node.value){
  //                 Call 'removeNode' on the current node's left node; 
@@ -176,6 +176,22 @@ class BinarySearchTree {
  //      Update the tree by calling 'removeNode' on the tree to remove the desired node with the given 'value'
          this.root = removeNode(this.root, value)
      }
+
+
+     findSecondLargest() {
+        if(!this.root) return undefined;
+        let parent;
+        let root = this.root;
+        if(!root.right) {
+            if(root.left) return root.left;
+            return root;
+        }
+        while(root.right){
+            parent = root;
+            root = root.right;
+        }
+        return parent.value;
+      }
 
 
 
