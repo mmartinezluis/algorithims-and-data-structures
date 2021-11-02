@@ -7,21 +7,38 @@ class Graph{
         if(!this.adjacencyList[vertext]) this.adjacencyList[vertex] = [];
     }
     addEdge(vertex1, vertex2){
-        if(
-            !this.adjacencyList[vertex1]?.includes(vertex2) && 
-            !this.adjacencyList[vertex2]?.includes(vertex1)
-        ){
-            this.adjacencyList[vertex1].push(vertex2);
-            this.adjacencyList[vertex2].push(vertex1);
-        }
+        if(this.adjacencyList[vertex1] && this.adjacencyList[vertex2]){
+            if(
+                !this.adjacencyList[vertex1].includes(vertex2) &&
+                !this.adjacencyList[vertex2].includes(vertex1)
+            ) {
+                 this.adjacencyList[vertex1].push(vertex2);
+                 this.adjacencyList[vertex2].push(vertex1);
+                 return true;
+            }
+        } 
+        return false;
     }
+    // addEdge(vertex1, vertex2){
+    //     if(
+    //         !this.adjacencyList[vertex1]?.includes(vertex2) && 
+    //         !this.adjacencyList[vertex2]?.includes(vertex1)
+    //     ){
+    //         this.adjacencyList[vertex1].push(vertex2);
+    //         this.adjacencyList[vertex2].push(vertex1);
+    //     }
+    // }
     removeEdge(vertex1, vertex2){
-        this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
-            v => v !== vertex2
-        );
-        this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
-            v => v !== vertex1
-        )
+        if(this.adjacencyList[vertex1] && this.adjacencyList[vertex2]){
+            this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+                v => v !== vertex2
+            );
+            this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
+                v => v !== vertex1
+            )
+            return true;
+        }
+        return false;
     }
     removeVertex(vertex){
         while(this.adjacencyList[vertex].length){
@@ -65,6 +82,25 @@ class Graph{
                     stack.push(neighbor);
                 }
             })
+        }
+        return result;
+    }
+
+    breadthFirstSearch(start){
+        let queue = [start];
+        let visited = {};
+        let result = [];
+        let vertex;
+        visited[start] = true;
+        while(queue.length){
+            vertex = queue.shift();
+            result.push(vertex);
+            this.adjacencyList[vertex].forEach( neighbor => {
+               if(!visited[neighbor]){
+                  visited[neighbor] = true;
+                  queue.push(neighbor);
+               }
+            });
         }
         return result;
     }
