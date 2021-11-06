@@ -6,7 +6,7 @@
 
 
 // This code passes 63/67 cases in leetCode; needs improvement;
-
+// THIS CODE DOES NOT PASS ALL TEST CASES;
 var isSubPath = function(head, root) { 
     let list = head
     let node = root;
