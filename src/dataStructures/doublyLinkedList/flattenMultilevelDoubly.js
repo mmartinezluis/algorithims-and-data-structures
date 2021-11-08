@@ -56,21 +56,21 @@
 };
 
 
-// Improtved: 93% speed and 65% memodry
+// Improtved: 93% speed and 65% memory
 // Logic for solution:
-    // It is best to use a whiteboard to see how to solve the problem.
-    // Using a whiteboard, I was able to get an idea of how to solve the problem:
-    // THe main approache consist of suing a combination of recursion and a stack;
-    // Drawing an example of a multilevel doubly linked list on the whiteboard, it can be noticed that:
-        // Once you encounter a node that has a child, you want to traverse that child node
-        // But before traversing the child node, if the current node has more node(s) to the right,
-        // we want to store the next reference somewhore to access it later;
-        // more specifically, we want to store the reference in a stack (array);
-        // once we get to the last child (by recursion), and we traverse the full row of the last child
-        // we want to pop the last stored node in the stack and connect it to the last node in the last child's row;
-        // we do this connection every time we get to the last node of a row
-        // but after doing the connection, to be able to traverse the CONNECTED node,
-        // we need to call a recursive function on the connected node.
+//     It is best to use a whiteboard to see how to solve the problem.
+//     Using a whiteboard, I was able to get an idea of how to solve the problem:
+//     THe main approach consists of suing a combination of recursion and a stack;
+//     Drawing an example of a multilevel doubly linked list on the whiteboard, it can be noticed that:
+//         Once you encounter a node that has a child, you want to traverse that child node
+//         But before traversing the child node, if the current node has more node(s) to the right,
+//         we want to store the next reference somewhore to access it later;
+//         more specifically, we want to store the reference in a stack (array);
+//         once we get to the last child (by recursion), and we traverse the full row of the last child
+//         we want to pop the last stored node in the stack and connect it to the last node in the last child's row;
+//         we do this connection every time we get to the last node of a row
+//         but after doing the connection, to be able to traverse the CONNECTED node,
+//         we need to call a recursive function on the connected node.
 
 
  var flatten = function(head) {
