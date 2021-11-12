@@ -1,12 +1,9 @@
-
 function constructNote(message, letters){
     let i=0;
-    let j=0;
     let reference = new Map();
 
     if(message.length === 0) return true;
     if(letters.length === 0) return false;
-    // if(letters.length > message.length) return false;
     
     for(const letter of letters) {
         if(reference.has(letter)) {
@@ -15,23 +12,18 @@ function constructNote(message, letters){
             reference.set(letter, 1);
         }
     }
-    
-    let minimumLetters = 0;
-    for(const [l, count] of reference){
-        minimumLetters = minimumLetters + count;
-    }
-    
+        
     let letterCount;
-    
-    while(i < message.length && j < minimumLetters) {
-        letterCount = reference.get(message[i]);
-        if(letterCount > 0) {
-            reference.set(message[i], letterCount--);
+    while(i < message.length) {
+        let letter = message[i];
+        letterCount = reference.get(letter);
+        if(letterCount) {
+            reference.set(letter, letterCount- 1);
+            if(reference[letter] < 0) return false;
             i++;
-            j++;
         } else {
-            i++;
+            return false;
         }
     }
-    return j === minimumLetters ? true : false;
+    return true;
 }
