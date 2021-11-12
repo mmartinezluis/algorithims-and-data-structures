@@ -105,20 +105,18 @@ class SingleLinkedList{
         return removed;
     }
     reverse(){
-        let source = this.head;
+        let current = this.head;
         let previous = null;
-        let nextReference
+        let nextReference;
         this.head = this.tail;
-        this.tail = source;
-        let i=0
+        this.tail = current;
+        let i = 0;
         while(i < this.length){
-            nextReference = source.next;
-            source.next = previous;
-            if(previous) previous.prev = source;
-            previous = source;
-            source.prev = nextReference;
-            source = nextReference;
-            i++
+            nextReference = current.next;
+            current.next = previous;
+            previous = current;
+            current = nextReference;            
+            i++;
         }
         return this;
     }
