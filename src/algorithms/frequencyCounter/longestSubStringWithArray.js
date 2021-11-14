@@ -6,7 +6,7 @@ function lengthOfLongestSubstring(str) {
 
         const currentCharacterPosition = currentString.indexOf(str[i])
         if(currentCharacterPosition !== -1) {
-            currentString = [];
+            currentString.splice(0, currentCharacterPosition + 1);
         }
         currentString.push(str[i]);
         longestSubstring = Math.max(longestSubstring, currentString.length)
