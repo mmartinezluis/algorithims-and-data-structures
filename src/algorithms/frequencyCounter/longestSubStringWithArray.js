@@ -1,4 +1,4 @@
-function lengthOfLongestSubstring(str) {
+function lengthOfLongestSubstringArray(str) {
     let currentString = [];
     let longestSubstring = 0;
 
@@ -15,4 +15,4 @@ function lengthOfLongestSubstring(str) {
 }
 
 let string = "g"
-lengthOfLongestSubstring(string)
+lengthOfLongestSubstringArray(string)

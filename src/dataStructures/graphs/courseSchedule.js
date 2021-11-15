@@ -3,39 +3,36 @@
 //  * @param {number[][]} prerequisites
 //  * @return {boolean}
 //  */
-
- class Graph {
-    constructor(){
-        this.adjacencyList = {};
-    }
-    addVertex(vertex){
-        if(!this.adjacencyList[vertex]) this.adjacencyList[vertex] = []
-    }
-    addEdge(v1, v2){
-        this.addVertex(v1)
-        this.addVertex(v2)
-        if(
-            !this.adjacencyList[1].includes(v2) &&
-            !this.adjacencyList[2].includes(v1)
-        ) {
-            this.adjacencyList[v1].push(v2);
-            this.adjacencyList[v2].push(v1);
-        } else {
-            return false;
-        }
+var canFinish = function(numCourses, prerequisites) {
+    let graph = new Map();          
+    let exploring = new Set();
+    let visited = new Set();
+    
+    for(let [child, parent] of prerequisites) {
+        if(graph.has(parent)) graph.get(parent).push(child)
+        else graph.set(parent, [child])
     }
     
-}
-
-var canFinish = function(numCourses, prerequisites) {
-    let nodes = {};
-    let queue = [];
-    let graph = new Graph();
-    for(pair of prerequisites){
-        if(graph.addEdge(pari[0], pari[1]) === false) return false;
+    for(let [child, parent] of graph) {
+        if(dfs(child)) return false;
     }
     return true;
-}
+    
+    function dfs(node) {
+        exploring.add(node);
+        let neighbors = graph.get(node);
+        if(neighbors){
+            for(let neighbor of neighbors){
+                if(visited.has(neighbor)) continue;
+                if(exploring.has(neighbor)) return true;
+                if(dfs(neighbor)) return true;
+            }   
+        }
+        exploring.delete(node);
+        visited.add(node);
+        return false;   
+    }
+};
 
 
 

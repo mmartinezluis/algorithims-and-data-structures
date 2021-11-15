@@ -67,7 +67,7 @@ class MaxBinaryHeap {
             this.values[0] = end;
             this.bubbleDown();
         }
-        return max
+        return max;
     }
 
     bubbleDown(){
@@ -75,6 +75,7 @@ class MaxBinaryHeap {
         let node;
         let child1, child2;
         while(index < this.values.length -1) {
+            node = this.values[index];
             let childIndex = 2*index+1;
             let swapIndex = null;
             child1 = this.values[childIndex];
@@ -116,3 +117,36 @@ class MaxBinaryHeap {
     }
     return result;
 };
+
+
+
+
+// ---------------------------------
+// SOLUTION 3
+// this does not work, the max calculation time is exceeded due to using sorting method
+
+var maxSlidingWindow = function(nums, k) {
+    if(nums.length < k) return null;
+    if(k === 1) return nums;
+    let max = -Infinity;
+    let window = [];
+    let result = [];
+    
+    for(let i =0; i< k; i++){
+        max = Math.max(max, nums[i])
+        window.push(nums[i])
+    }
+    result.push(max);
+    
+    for(let i = k; i< nums.length; i++) {
+        let tempWindow;
+        window.shift();
+        window.push(nums[i])
+        tempWindow = window.slice(0)
+        const integer = tempWindow.sort((a,b) => a-b)
+        const final = integer[k-1]
+        result.push(final);
+    }   
+    return result;
+};
+
