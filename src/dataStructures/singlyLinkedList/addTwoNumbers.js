@@ -41,7 +41,7 @@
 
 
 // Recursive solution:
-// 62% faster; 80% less memory
+// 84% faster; 70% less memory
 var addTwoNumbers = function(l1, l2) {
     let digits;
     let l3 = new ListNode();
@@ -63,4 +63,19 @@ var addTwoNumbers = function(l1, l2) {
     }
     helper(l1, l2, curr, surplus)
     return l3;
+};
+
+
+// Recursive solution: #2
+// Does not work
+// 62% faster; 80% less memory
+var addTwoNumbers = function(l1, l2, surplus) {
+    let digits = (l1?.val || 0) + (l2?.val || 0)  + surplus;
+    if(l1) l1 = l1.next;
+    if(l2) l2 = l2.next;
+    surplus = Math.floor((digits/10) % 10)
+    digits = digits % 10;
+    return new ListNode(digits, 
+        (!l1?.next && !l2?.next && surplus == 0) ? null : addTwoNumbers(l1?.next, l2?.next, surplus)
+    )
 };
