@@ -120,6 +120,17 @@ class SingleLinkedList{
         }
         return this;
     }
+    reverse(){
+        let curr = this.head;
+        let previous = null
+        while(head) {
+            head = head.next;
+            curr.next = previous;
+            previous = curr;
+            if(head) curr = head;
+        }
+        return curr;
+    }
 }
 // let list = new SingleLinkedList();
 // list.push(1)

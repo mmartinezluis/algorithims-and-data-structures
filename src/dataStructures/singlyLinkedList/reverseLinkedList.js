@@ -19,7 +19,6 @@
         curr.next = previous;
         previous = curr;
         if(head) curr = head;
-        
     }
     return curr;
 };
