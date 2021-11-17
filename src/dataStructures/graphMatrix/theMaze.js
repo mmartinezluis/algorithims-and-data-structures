@@ -16,7 +16,7 @@
     ]
     function dfs(start, destination){
         visited[start[0]][start[1]] = true;
-        console.log([start[0],start[1]])
+//         console.log([start[0],start[1]])
         for(let i =0; i < directions.length; i++) {
             let newI = start[0] + directions[i][0];
             let newJ = start[1] + directions[i][1];
@@ -34,9 +34,11 @@
                 }
             }
         }
+        if(visited[destination[0]][destination[1]]) return true;
+//         console.log('target')
     }
-    dfs(start, destination)
-    return visited;
+    if(dfs(start, destination)) return true;
+    return false;
 };
 
 let maze = [
@@ -47,5 +49,5 @@ let maze = [
     [0,0,0,0,0]
   ] 
 let start = [0,4]
-let destination = [4,4]
+let destination = [3,2]
 hasPath(maze, start, destination)
