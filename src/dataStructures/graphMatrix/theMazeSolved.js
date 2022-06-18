@@ -9,8 +9,8 @@
     let columnsLength = maze[0].length;
     let visited = new Array(rowsLength).fill(0).map(() => new Array(columnsLength).fill(false))
     let directions = [
-        [1,0],      //goig up
-        [-1,0],     //going down,
+        [1,0],      //goig down
+        [-1,0],     //going up,
         [0,-1],     //going left
         [0,1]       //going right
     ]

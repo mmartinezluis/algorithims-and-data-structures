@@ -1,3 +1,18 @@
+// Logic for Dijktra's Algorithm:
+// Suppose we want to go from node A to node B, where nodes A and B are
+// neighbors. Suppose we want to know the distance from node A to node B as well.
+// Steps: we first need to obtain node B from node's A neighbors list;
+// then we calculate the distnnce from A to be by (1) calculating the
+// distnace from node A to node A (which is 0) and (2) adding the edge
+// distance from node A to node B (that is, node B.weight).
+
+// Once we have the distance, if we want to cintinue moving from
+// node B to some other node, we update distance to node B
+// to be equal to the calculated distance above; then we update
+// how we got to node B (through node A, that is, ` previous["B"] = "A" `)
+// and, finally, we push node B along with its new distance to a priority queue. 
+
+
 class WeightedGraph {
     constructor() {
         this.adjacencyList = {};
