@@ -3,7 +3,7 @@
  * @return {number[]}
  */
 
-// (Does not Worker; need to revisit)
+// (Does not Work; need to revisit)
 // Extra space complexity (O(1))
  var productExceptSelf = function(nums) {
     let L = 1;
@@ -25,6 +25,7 @@
     return result;
 };
 
+// Works; O(n) space complexity; O(n) time complexity
  var productExceptSelf = function(nums) {
     let L = [];
     let R = [];
