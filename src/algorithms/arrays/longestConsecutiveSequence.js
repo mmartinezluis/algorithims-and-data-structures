@@ -2,61 +2,86 @@
  * @param {number[]} nums
  * @return {number}
  */
+
+// This solution works
  var longestConsecutive = function(nums) {
-    if(nums.length === 0) return 0;
-    if(nums.length === 1) return 1;
-    let map = new Map();
-    let current;
-    let count = 1;
-    let tempCount = 1;
+    let map = {};
+    let count = 0;
     
     for(let i=0; i < nums.length; i++) {
       current = nums[i];
-      map.set(current, (map.has(current) && [...map.get(current), i]) || [i]);
+      if(map[current]) continue;
+      map[current] = true;
+    }
+      
+    for(let key in map) {
+      if(!map[key -1]) {
+        let current = parseInt(key) +1;
+        let tempCount = 1;
+  
+        while(map[current]){
+          current += 1;
+          tempCount++;
+        }
+        count = Math.max(tempCount, count)
+      }
+  
+    }
+  
+    return count;
+  };
+
+
+// This solution runs out of time in LeetCode, although it seems to be a 
+// subjectively fast solution as not all of the keys in the object are traversed
+ var longestConsecutive = function(nums) {
+    if(!nums.length) return 0;
+    let map = {};
+    let current;
+    let count = 1;
+    let tempCount = 0;
+    
+    for(let i=0; i < nums.length; i++) {
+      current = nums[i];
+      if(map[current]) continue;
+      map[current] = true;
     }
   
     let backwardEl;
     let forwardEl;
-    let backwardCount =0;
+    let backwardCount = 0;
     let forwardCount = 0;
+  
+    let negativeCount = Object.keys(map).length;
     
-    while(count < [...map.keys()].length) {
-      current = [...map.keys()][0];
+    while(count < negativeCount) {
+      current = parseInt(Object.keys(map)[0]);
       backwardEl = current - 1;
       forwardEl = current + 1;
   
       // backwards count;
-      while(map.get(backwardEl)) {  
-          backwardCount++;
-          if(map.has(backwardEl).length > 1) {
-            map.set(backwardEl, [1]);
-            break;
-          } else {
-            map.delete(backwardEl);
-            backwardEl-= 1;  
-          }
+      while(map[backwardEl]) {  
+        backwardCount++;
+        delete map[backwardEl];
+        backwardEl--;  
+        negativeCount--
       }
   
       // forward count;
-      while(map.has(forwardEl)) {  
+      while(map[forwardEl]) {  
         forwardCount++;
-        if(map.get(forwardEl).length > 1) {
-          map.set(forwardEl, [1]);
-          break;
-        } else {
-          map.delete(forwardEl)
-          forwardEl+= 1;
-        }
-          
+        delete map[forwardEl];
+        forwardEl++;
+        negativeCount--
       }
   
-      // if(map.get(current).length < 2) {
-        tempCount = backwardCount + forwardCount +1;
-      // } else tempCount = Math.max(backwardCount, forwardCount) +1;
-  
+      tempCount = backwardCount + forwardCount + 1;
       count = Math.max(tempCount, count);
-      
-      map.delete(current);
+  
+      backwardCount = 0;
+      forwardCount = 0;
+      negativeCount--;
+      delete map[current];
     }
     
     return count;
