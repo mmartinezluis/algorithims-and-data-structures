@@ -19,15 +19,15 @@ var diameterOfBinaryTree = function(root) {
         if(node.left !== null && node.right !== null) {
             branchCounter = Math.max(nodeMaxDepth(node.left) + nodeMaxDepth(node.right), branchCounter);
         }
-        if(node.left)  repeat(node.left, tempCount + 1);
-        if(node.right)  repeat(node.right, tempCount + 1);
+        if(node.left) repeat(node.left, tempCount + 1);
+        if(node.right) repeat(node.right, tempCount + 1);
     })(root, 0)
     return Math.max(counter, branchCounter);
 };
 
 
 function nodeMaxDepth(node) {
-    let counter = 0;
+    let counter = 1;
      (function recursive(node, tempCount){
         counter = Math.max(counter, tempCount);
         if(node.left) recursive(node.left, tempCount + 1);
