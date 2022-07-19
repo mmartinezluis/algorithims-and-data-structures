@@ -19,6 +19,7 @@
 // If at any given time after leaf dectection, if the current level is 2 more than 
 //  the level of leaf detection, return false (tree is unbalanced);
 //  otherwise, return true at end of recursion
+// DOES NOT WORK FOR ALL CASES
  var isBalanced = function(root) {
      if(!root) return true;
      // initialize a map with level 1 of tree as containing the only node of level1 (the root node)
@@ -30,18 +31,15 @@
     let anyLeaf = false;
     let boolean = true;
 
-    (function recursive() {
+    function recursive() {
         node = L.get(i).shift();
         
-        if(!node.left && !node.right) {
+        if(!node.left || !node.right) {
             anyLeaf = true;
             if(!L.has("leaf")) L.set("leaf", i)
         }
 
-        if(anyLeaf && (i - L.get('leaf') >= 2)) {
-            boolean = false;
-            return
-        }
+        if(anyLeaf && (i - L.get('leaf') >= 2)) return false;
 
         if(node.left) {
             L.has(i+1) ? L.get(i+1).push(node.left) : L.set(i+1, [node.left]);            
@@ -55,12 +53,12 @@
         // push to that level, then return (full recursion has concluded)
         if(!L.get(i).length){
             i++;
-            if(!L.has(i)) return;
+            if(!L.has(i)) return true;
         };
 
-        if(boolean === false) return false;
-        else recursive()
+        recursive();
+    }
 
-    })()
+    return recursive();
 
 };
