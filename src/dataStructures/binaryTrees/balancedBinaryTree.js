@@ -11,6 +11,19 @@
  * @return {boolean}
  */
 
+// One optimal solution
+
+function height(root) {
+    if(root === null) return -1;
+    return 1 + Math.max(height(root.left), height(root.right));
+}
+
+var isBalanced = function(root) {
+    if(root === null) return true;
+    if(Math.abs(height(root.left) - height(root.right)) <= 1) return isBalanced(root.left) && isBalanced(root.right);
+    return false;
+}
+
 // Pseudo code:
 // Run breadth first search
 // Store the nodes for each level of the tree in a map array
