@@ -19,3 +19,16 @@
     if(p.val < root.val && q.val < root.val) return lowestCommonAncestor(root.left, p, q);
     return root;
 };
+
+// Iterative solution
+var lowestCommonAncestor = function(root, p, q) {
+    let node = root;
+    while(node !== null) {
+        if(p.val > node.val && q.val > node.val) {
+            node = node.right;
+        } else if(p.val < node.val && q.val < node.val) {
+            node = node.left;
+        }
+        else return node;
+    }
+}
