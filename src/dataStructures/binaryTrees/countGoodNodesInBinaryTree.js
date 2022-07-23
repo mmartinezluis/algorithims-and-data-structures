@@ -24,7 +24,7 @@
         
         if(node.right) {
             if(node.right.val >= max) {
-                count++;
+                count++; 
                 traverse(node.right, node.right.val);
             } else traverse(node.right, max);
         }
@@ -32,3 +32,15 @@
     traverse(root, max);
     return count;
 };
+
+// Faster solution and lower memory
+var goodNodes = function(root) {
+    let count =0;
+    function traverse(node, max) {
+        if(node.val >= max) count++;
+        if(node.left) traverse(node.left, Math.max(node.val, max));
+        if(node.right) traverse(node.right, Math.max(node.val, max));
+    }
+    traverse(root, Number.MIN_SAFE_INTEGER);
+    return count;
+}
