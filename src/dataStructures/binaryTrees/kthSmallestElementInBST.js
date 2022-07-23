@@ -12,5 +12,17 @@
  * @return {number}
  */
  var kthSmallest = function(root, k) {
-    
+    let counter = 0;
+    let element;
+    function DFS(node) {
+        if(node.left) DFS(node.left);
+        counter++;
+        if(counter === k) {
+           element = node.val;
+           return
+        }
+        if(node.right) DFS(node.right);
+    }
+    DFS(root);
+    return element;
 };
