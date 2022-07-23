@@ -10,6 +10,8 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
+
+// Recursive solution
  var levelOrder = function(root) {
      if(!root) return [];
      let L = 1;
@@ -33,3 +35,23 @@
      }
      return BSF(); 
 };
+
+// Iterative solution
+var levelOrder = function(root) {
+    if(!root) return [];
+    let q = [root];
+    let result = [];
+    let node;
+    while(q.length) {
+        const levelNodes = q.length;
+        const temp = [];
+        for(let i=0; i < levelNodes; i++) {
+            node = q.shift();
+            temp.push(node.val);
+            if(node.left) q.push(node.left);
+            if(node.right) q.push(node.right);
+        }
+        result.push(temp);
+    }
+    return result;
+}
