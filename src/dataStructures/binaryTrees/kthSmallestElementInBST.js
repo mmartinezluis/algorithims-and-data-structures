@@ -26,3 +26,6 @@
     DFS(root);
     return element;
 };
+
+// Follow up: If the BST is modified often (i.e., we can do insert and delete operations) 
+// and you need to find the kth smallest frequently, how would you optimize?
