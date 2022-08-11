@@ -10,6 +10,23 @@
  * @param {TreeNode} root
  * @return {number}
  */
+
+var diameterOfBinaryTree = function(root) {
+    let diameter = 0;
+    longestPath(root);
+    return diameter
+}
+
+function longestPath(node) {
+    if(!node) return 0;
+    const leftPath = longestPath(node.left);
+    const rightPath = longestPath(node.right);
+
+    diameter = Math.max(diameter, leftPath + rightPath);
+    return 1 + Math.max(leftPath, rightPath);
+}
+
+
 var diameterOfBinaryTree = function(root) {
     if(!root) return 0;
     let counter = 0;
@@ -34,4 +51,8 @@ function nodeMaxDepth(node) {
         if(node.right) recursive(node.right, tempCount + 1);
      })(node, counter)
      return counter;
+}
+function nodeMaxDepth(node) {
+    if(!node) return 0;
+    return 1 + Math.max(nodeMaxDepth(node.left), nodeMaxDepth(node.rigth))
 }
