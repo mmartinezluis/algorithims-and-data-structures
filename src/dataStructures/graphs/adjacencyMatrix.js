@@ -1,6 +1,6 @@
 class Graph {
     constructor(size = 1){
-        this.sieze = size;
+        this.size = size;
         this.matrix = [];
         for(let i=0; i < this.size; i++) {
             this.matrix.push([]);

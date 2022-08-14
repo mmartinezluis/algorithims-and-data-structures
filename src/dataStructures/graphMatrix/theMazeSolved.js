@@ -16,7 +16,7 @@
     ]
     let result;
     function dfs(start){  
-    if(result) return;
+        if(result) return;
         visited[start[0]][start[1]] = true
         for(let i =0; i < directions.length; i++) {
             let dir = directions[i];
