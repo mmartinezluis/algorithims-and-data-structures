@@ -27,7 +27,7 @@
         if(current.right) levelMap.get(L+1).push(current.right);
         if(!levelMap.get(L).length) {
             L++;
-            if(levelMap.get(L).length) result.push(levelMap.get(L));
+            if(levelMap.get(L).length) result.push(levelMap.get(L).map(node => node.val));
         }
      }
      return result;
