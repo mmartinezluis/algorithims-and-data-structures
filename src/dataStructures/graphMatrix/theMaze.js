@@ -5,7 +5,7 @@
  * @return {boolean}
  */
 
-// GOLDE CODE: THE CONSOLE LOGS OF THIS CODE SHOW THE MOVEMENT OF THE BALL (THE POSITION OF THE BALL AS IT MOVES), 
+// GOLDEN CODE: THE CONSOLE LOGS OF THIS CODE SHOW THE MOVEMENT OF THE BALL (THE POSITION OF THE BALL AS IT MOVES), 
 // they also show when the ball hits a wall, and when the ball reaches a corner and there is no more space to move.
 // When the ball reaches a corner, the "for" loop in the dfs function will conclude as all of the directions to omve
 // have either been depleted or have been already visited; hence, whenever the console log "Completed a call stack" is printed,

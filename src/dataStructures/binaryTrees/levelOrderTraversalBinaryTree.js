@@ -11,6 +11,28 @@
  * @return {number[][]}
  */
 
+ var levelOrder = function(root) {
+     if(!root) return [];
+     let L = 1;
+     let levelMap = new Map([
+         [L, [root]]
+     ]);
+     let result = [ [root.val] ];
+     let current;
+
+     while(levelMap.get(L).length) {
+        current = levelMap.get(L).shift();
+        if(!levelMap.has(L+1)) levelMap.set(L+1, []);
+        if(current.left) levelMap.get(L+1).push(current.left);
+        if(current.right) levelMap.get(L+1).push(current.right);
+        if(!levelMap.get(L).length) {
+            L++;
+            if(levelMap.get(L).length) result.push(levelMap.get(L));
+        }
+     }
+     return result;
+ }
+
 // Recursive solution
  var levelOrder = function(root) {
      if(!root) return [];
