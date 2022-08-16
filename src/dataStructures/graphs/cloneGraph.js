@@ -41,3 +41,22 @@ var cloneGraph = function(node) {
     }
     return root;
 };
+
+
+var cloneGraph = function(node) {
+    let map = new Map();
+    let main = new Node(node.val);
+    map.set(node.val, main);
+    function dfs(node, main) {
+        node.neighbors.forEach(neighbor => {
+            if(!map.has(neighbor.val)) {
+                const newNode = new Node(neighbor.val);
+                main.neighbors.push(newNode);
+                map.set(neighbor.val, newNode);
+                dfs(neighbor, newNode)
+            } else main.neighbors.push(map.get(neighbor.val))
+        })
+    }
+    dfs(node, main);
+    return main
+}
