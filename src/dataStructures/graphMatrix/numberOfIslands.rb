@@ -4,8 +4,8 @@ def num_islands(grid)
     counter = 0
     grid.each_with_index do |row, i| 
         row.each_with_index do |column, j| 
-            if grid[i][j] === "1"
-                dfs(i,j, grid, nr, nc)
+            if grid[i][j] == "1"
+                dfs(i,j, grid)
                 counter+= 1
             end
         end
