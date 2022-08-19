@@ -2,14 +2,26 @@ require 'pry'
 # @param {Integer[][]} heights
 # @return {Integer[][]}
 
-# This solutions works, but is slow (exceeds time limit in LeetCode)
 def pacific_atlantic(heights)
     result = []
+    nr = heights.length
+    nc = heights[0].length
+    pacific_reachable = Array.new(heights.length) {Array.new(heights[0].length)}
+    atlatic_reachable = Array.new(heights.length) {Array.new(heights[0].length)}
+
+    heights.each_with_index do |row, i|
+        dfs(i, 0, heights, pacific_reachable)
+        dfs(i, nc - 1, heights, atlatic_reachable)
+    end
+
+    heights[0].each_with_index do |column, j|
+        dfs(0, j, heights, pacific_reachable)
+        dfs(nr -1, j, heights, atlatic_reachable)
+    end
+
     heights.each_with_index do |row, i|
         row.each_with_index do |column, j|
-            map = Array.new(heights.length) {Array.new(heights[0].length, false)}
-            track = { P: false, A: false}
-            result << [i,j] if dfs(i,j,heights, map, track)
+            result << [i,j] if pacific_reachable[i][j] && atlatic_reachable[i][j]
         end
     end
     binding.pry
@@ -17,30 +29,63 @@ def pacific_atlantic(heights)
 end
 
 def directions
-[
-    [0,-1], [0,1], [-1,0], [1,0]
-]
+    [
+        [0,-1], [0,1], [-1,0], [1,0]
+    ]
 end
 
-def dfs(i,j,heights, map, track)
-    return true if track[:P] && track[:A] 
+def dfs(i,j,heights, map)
     map[i][j] = true
     directions.each do |dir|
         value = heights[i][j]
         x = i + dir[0]
         y = j + dir[1]
         # binding.pry
-        if((x >= 0 && x < heights.length && y >= 0 && y < heights[0].length && value >= heights[x][y]) && !map[x][y])
+        if((x >= 0 && x < heights.length && y >= 0 && y < heights[0].length && value <= heights[x][y]) && !map[x][y])
             # binding.pry
-            dfs(x, y, heights, map, track) 
+            dfs(x, y, heights, map) 
         end
-        track[:P] = true if x < 0 || y < 0
-        track[:A] = true if x >= heights.length || y >= heights[0].length
         # binding.pry
-        return true if track[:P] && track[:A] 
     end
-    false
 end
+
+
+
+
+
+# This solutions works, but is slow (exceeds time limit in LeetCode)
+# def pacific_atlantic(heights)
+#     result = []
+#     heights.each_with_index do |row, i|
+#         row.each_with_index do |column, j|
+#             map = Array.new(heights.length) {Array.new(heights[0].length, false)}
+#             track = { P: false, A: false}
+#             result << [i,j] if dfs(i,j,heights, map, track)
+#         end
+#     end
+#     binding.pry
+#     result
+# end
+
+# def dfs(i,j,heights, map, track)
+#     return true if track[:P] && track[:A] 
+#     map[i][j] = true
+#     directions.each do |dir|
+#         value = heights[i][j]
+#         x = i + dir[0]
+#         y = j + dir[1]
+#         # binding.pry
+#         if((x >= 0 && x < heights.length && y >= 0 && y < heights[0].length && value >= heights[x][y]) && !map[x][y])
+#             # binding.pry
+#             dfs(x, y, heights, map, track) 
+#         end
+#         track[:P] = true if x < 0 || y < 0
+#         track[:A] = true if x >= heights.length || y >= heights[0].length
+#         # binding.pry
+#         return true if track[:P] && track[:A] 
+#     end
+#     false
+# end
 
 
 
