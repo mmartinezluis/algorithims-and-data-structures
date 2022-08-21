@@ -7,41 +7,43 @@
 // Then inspect the grid; if there are good oranges left 
 // return -1, otherwise return the minutes
  var orangesRotting = function(grid) {
-    let touched = new Array(grid.length).fill(null).map(() => new Array(grid[0].length).fill(false));
     let nr = grid.length;
     let nc = grid[0].length;
-
+    let directions = [
+        [0,1], [0,-1], [-1,0], [1,0]
+    ]
     let queue = [];
+    let freshOranges = 0;
+    let minutes = -1;
 
     for(let i=0; i < nr; i++) {
         for(let j=0; j < nc; j++) {
-
+            if(grid[i][j] == 2) queue.push([i,j])
+            else if(grid[i][j] == 1) freshOranges++;
         }
     }
-};
 
-function bfs(i, j, grid) {
-    let queue = [[i,j]];
-    let minutes = 0;
+    queue.push([-1,-1]);
+
     while(queue.length) {
-        const level = queue.length;
-        for(let k=0; k < level; k++) {
-            let F = queue.shift();
-            let touched = false;
-            for(let dir in directions) {
-                const x = F[0] + dir[0];
-                const y = F[1] + dir[1];
-                if(x < 0 || y < 0 || x > grid.length || y > grid[0].length || grid[x][y] == 2 || grid[x][y] == 0) continue;
-                grid[x][y] == 2;
-                queue.push([x,y]);
-                touched = true;
-            }
-            if(touched) minutes++;
+        let F = queue.shift();
+        if(F[0] == -1) {
+            minutes++;
+            if(queue.length > 0) queue.push([-1,-1])
+            continue;
         }
+        for(let index=0; index < directions.length; index++) {
+            const dir = directions[index];
+            const x = F[0] + dir[0];
+            const y = F[1] + dir[1];
+            if(x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == 1) {
+                grid[x][y] = 2;
+                freshOranges--;
+                queue.push([x,y]);
+            }
+        }   
     }
-}
 
-
-let directions = [
-    [0,1], [0,-1], [-1,0], [1,0]
-]
+    if(freshOranges > 0) return -1
+    else return minutes;
+};
