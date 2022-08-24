@@ -5,8 +5,6 @@
  var wallsAndGates = function(rooms) {
     let nr = rooms.length;
     let nc = rooms[0].length;
-    // let totalRooms = 0;
-    let totalGates = 0;
     let queue = [];
 
     for(let i=0; i < nr; i++) {
