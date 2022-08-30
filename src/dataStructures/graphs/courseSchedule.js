@@ -13,13 +13,9 @@ var can_finish = function(num_courses, prerequisites) {
     }) 
     let visited = {};
     for(let vertex of [...graph.keys()]) {
-        if(dfs(vertex, graph, visited)) {
-            console.log("I'm returning FALSE")
-            return false;
-        }
+        if(dfs(vertex, graph, visited)) return false;
         visited = {};
     }
-    console.log("I'm returning TRUE")
     return true;
 }
 
@@ -28,10 +24,7 @@ function dfs(vertex, graph, visited) {
     visited[vertex] = true;
     console.log(vertex)
     for(let neighbor of graph.get(vertex)) {
-        if(visited[neighbor]) {
-            console.log("Before returning true in loop", neighbor)
-            return true;
-        }
+        if(visited[neighbor]) return true;
         if(dfs(neighbor, graph, visited)) return true;
     }
     return false;
