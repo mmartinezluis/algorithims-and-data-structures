@@ -20,12 +20,20 @@
         addEdge(edge);
     }
 
-    for(let vertex in this.adjList) {
-        const neighbors = this.adjList[vertex];
+    const keys = [...this.adjList.keys()];
+
+    // for(let i = keys.length - 1; i >= 0; i--) {
+    //     const neighbors = this.adjList.get(keys[i]);
+    //     if(neighbors.length > 1) {
+    //         for(let neighbor of neighbors) {
+    //             if(this.adjList.get(neighbor).length > 1) return [keys[i], neighbor];
+    //         }
+    //     }
+    // }
+    for(let i = edges.length - 1; i >= 0; i--) {
+        const neighbors = this.adjList.get(edges[i][0]);
         if(neighbors.length > 1) {
-            for(let neighbor of neighbors) {
-                if(this.adjList[neighbor].length > 1) return [vertex, neighbor];
-            }
+            if(this.adjList.get(edges[i][1]).length > 1) return edges[i];
         }
     }
 
