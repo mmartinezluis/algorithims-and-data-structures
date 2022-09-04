@@ -19,8 +19,6 @@ def can_finish(num_courses, prerequisites)
     dfs(initial, graph, visited, true)
 end
 
-
-
 def dfs(vertex, graph, visited, boolean)
     # binding.pry
     if graph[vertex]
@@ -32,9 +30,6 @@ def dfs(vertex, graph, visited, boolean)
     end
     true 
 end
-
-
-
 
 prerequisites = [
     ['B','A'],
