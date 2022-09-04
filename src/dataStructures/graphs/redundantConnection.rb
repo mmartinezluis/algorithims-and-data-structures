@@ -201,7 +201,7 @@ end
 module DSU
     @parent
     @rank
-
+    
     def self.dsu(size)
         @parent = Array.new(size) {|i| i}
         @rank = Array.new(size) { 0 }
@@ -231,4 +231,4 @@ module DSU
     end
 end
 
-find_redundant_connection2(edges)
+# find_redundant_connection2(edges)
