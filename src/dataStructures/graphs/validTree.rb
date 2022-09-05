@@ -1,6 +1,9 @@
 # @param {Integer} n
 # @param {Integer[][]} edges
 # @return {Boolean}
+
+# Strategy: a graph is a valid tree if it does not have cycles
+# and if it consists of one component (it is only one graph)
 def valid_tree(n, edges)
     dsu = DSU.new(n)
     components = n
