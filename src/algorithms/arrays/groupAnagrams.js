@@ -22,8 +22,9 @@
         
         const string = counter.toString();
         
-        if(map.get(string)){
-            map.set(string, [...map.get(string), word])
+        if(map.has(string)){
+            // map.set(string, [...map.get(string), word])
+            map.get(string).push(word)
         } else {
             map.set(string, [word])
         }
