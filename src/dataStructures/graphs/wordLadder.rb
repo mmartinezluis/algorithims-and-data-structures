@@ -106,11 +106,10 @@ def ladder_length(begin_word, end_word, word_list)
     graph = {}
     hash = {}
     hash2 = {}
-    seen = {}
     src = begin_word
     (word_list + [src]).each do |word|
         hash[word] = {}
-        hash2[word] = :a
+        hash2[word] = :a if word != src
         graph[word] = []
         word.each_char do |char|
             hash[word][char] = :w
@@ -118,7 +117,7 @@ def ladder_length(begin_word, end_word, word_list)
     end
     return 0 if !hash[end_word]
     queue = [src]
-    levels = 0
+    levels = 1
     done = false
     while !queue.empty?
         break if done
@@ -132,18 +131,18 @@ def ladder_length(begin_word, end_word, word_list)
                 if match(src, dest, hash)
                     graph[src] << dest
                     if dest != end_word   
-                        queue << dest 
-                        hash2.delete(dest)
+                        queue << dest
+                        hash2.delete(dest)                        
                     else
                         done = true
                         break
                     end    
                 end
             end
+            hash2.delete src
         }
-        hash2.delete(src)
     end
-    p levels, queue, graph
+    levels
 end
 
 def match(src, dest, hash)
@@ -158,6 +157,7 @@ end
 begin_word = "hit"
 end_word = "cog"
 word_list = ["hot","dot","dog","lot","log","cog"]
+word_list = ["hot","cog","dot","dog","lot","log"]
 # word_list = ["dot","dog","lot","log","cog"]
 # word_list = ["dog","log","cog"]
 ladder_length(begin_word, end_word, word_list)
