@@ -68,7 +68,6 @@ def ladder_length(begin_word, end_word, word_list)
     hash = {}
     seen = {}
     src = begin_word
-
     (word_list + [src]).each do |word|
         hash[word] = {}
         graph[word] = []
@@ -76,11 +75,9 @@ def ladder_length(begin_word, end_word, word_list)
             hash[word][char] = :w
         end
     end
-    
     queue = []
-
+    levels = 1
     return 0 if !hash[end_word]
-
     while !word_list.empty?
         dest = word_list.shift
         if seen[dest]
@@ -90,7 +87,9 @@ def ladder_length(begin_word, end_word, word_list)
         seen[dest] = true
         if match(src, dest, hash)
             graph[src] << dest
-            queue << dest if dest != end_word
+            # Do not push the end_word to queue as it is the last 
+            # vertex in graph and does not need to be processed
+            queue << dest if dest != end_word   
             # Recycle the end_word until using all of the vertices
             if dest == end_word && !queue.empty?
                 word_list << dest
@@ -99,7 +98,52 @@ def ladder_length(begin_word, end_word, word_list)
             word_list << dest
         end
     end
-    p graph
+    p queue, graph
+end
+
+
+def ladder_length(begin_word, end_word, word_list)
+    graph = {}
+    hash = {}
+    hash2 = {}
+    seen = {}
+    src = begin_word
+    (word_list + [src]).each do |word|
+        hash[word] = {}
+        hash2[word] = :a
+        graph[word] = []
+        word.each_char do |char|
+            hash[word][char] = :w
+        end
+    end
+    return 0 if !hash[end_word]
+    queue = [src]
+    levels = 0
+    done = false
+    while !queue.empty?
+        break if done
+        length = queue.length
+        levels += 1
+        length.times {|i|
+            break if done
+            src = queue.shift
+            hash2.keys.each do |key|
+                dest = key
+                if match(src, dest, hash)
+                    graph[src] << dest
+                    if dest != end_word   
+                        queue << dest 
+                        hash2.delete(dest)
+                    else
+                        done = true
+                        break
+                    end    
+                end
+            end
+        }
+        hash2.delete(src)
+    end
+    p levels, queue, graph
 end
 
 def match(src, dest, hash)
@@ -110,6 +154,7 @@ def match(src, dest, hash)
     miss < 2 ? true : false
 end
     
+
 begin_word = "hit"
 end_word = "cog"
 word_list = ["hot","dot","dog","lot","log","cog"]
