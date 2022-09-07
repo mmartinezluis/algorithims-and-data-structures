@@ -1,3 +1,4 @@
+require 'pry'
 # @param {String} begin_word
 # @param {String} end_word
 # @param {String[]} word_list
@@ -103,19 +104,21 @@ end
 
 
 def ladder_length(begin_word, end_word, word_list)
+    solution = Solution.new
     graph = {}
-    hash = {}
-    hash2 = {}
     src = begin_word
     (word_list + [src]).each do |word|
-        hash[word] = {}
-        hash2[word] = :a if word != src
+        solution.hash[word] = {} 
+        solution.hash2[word] = {} 
         graph[word] = []
         word.each_char do |char|
-            hash[word][char] = :w
+            solution.hash2[word][char] ? solution.hash2[word][char] += 1 : solution.hash2[word][char] = 1
         end
+        temp = solution.hash2[word]
+        solution.hash[word] = Hash.new.merge(temp)
     end
-    return 0 if !hash[end_word]
+    solution.hash2.delete src
+    return 0 if !solution.hash[end_word]
     queue = [src]
     levels = 1
     done = false
@@ -124,40 +127,63 @@ def ladder_length(begin_word, end_word, word_list)
         length = queue.length
         levels += 1
         length.times {|i|
-            break if done
+            break if done                
             src = queue.shift
-            hash2.keys.each do |key|
+            solution.hash2.keys.each do |key|
                 dest = key
-                if match(src, dest, hash)
-                    graph[src] << dest
+                if solution.match(src, dest)
+                    graph[src] << dest if dest != begin_word
                     if dest != end_word   
-                        queue << dest
-                        hash2.delete(dest)                        
+                        queue << dest if dest != begin_word
+                        solution.hash2.delete(dest)                        
                     else
                         done = true
                         break
                     end    
                 end
             end
-            hash2.delete src
+            solution.hash2.delete src
         }
     end
-    levels
+    p done ? levels : 0
 end
 
-def match(src, dest, hash)
-    miss = 0
-    dest.each_char do |char|
-        miss += 1 if !hash[src][char]
+class Solution
+    attr_accessor :hash, :hash2
+    def initialize
+        @hash = {}
+        @hash2 = {}
     end
-    miss < 2 ? true : false
-end
     
+    def match(src, dest)
+        miss = 0
+        src.chars.each_with_index do |char, index|
+            if char != dest[index] || hash[dest][char] == 0 
+                miss += 1 
+            else 
+                hash[dest][char] -= 1
+            end
+        end 
+        hash[dest] = Hash.new.merge(hash2[dest])
+        miss < 2 ? true : false
+    end
+end
 
 begin_word = "hit"
 end_word = "cog"
 word_list = ["hot","dot","dog","lot","log","cog"]
-word_list = ["hot","cog","dot","dog","lot","log"]
-# word_list = ["dot","dog","lot","log","cog"]
-# word_list = ["dog","log","cog"]
+
+
+begin_word = "lost"
+end_word = "miss"
+word_list= ["most","mist","miss","lost","fist","fish"]
+
+
+begin_word = "leet"
+end_word = "code"
+word_list = ["lest","leet","lose","code","lode","robe","lost"]
+
+
+
+
 ladder_length(begin_word, end_word, word_list)
