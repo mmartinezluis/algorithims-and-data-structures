@@ -23,13 +23,19 @@
         }
         return reference;
     }
-    return head
+    return head;
 };
 
 
 function ListNode(val, next) {
     this.val = (val===undefined ? 0 : val)
     this.next = (next===undefined ? null : next)
+    return this;
 }
-
-ListNode(4)
+let head = ListNode(1);
+// const two = head.next = ListNode(2);
+head.next = 2
+// const three = two.next = ListNode(3);
+// const four = three.next = ListNode(4);
+// const five = four.next = ListNode(5);
+console.log(head.next)
