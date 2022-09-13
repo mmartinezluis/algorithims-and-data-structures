@@ -60,7 +60,9 @@ var reorderList = function(head) {
         current = temp;
     }
     let second = prev;
-    mergeLists(head, second, 1)
+    console.log(second)
+    // mergeLists(head, second, 1)
+    
     // Do alternative merge between first half of original liist and list2
     function mergeLists(list1, list2, token) {
         if(!list1 || !list2) return null;
