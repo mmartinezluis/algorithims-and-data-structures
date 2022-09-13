@@ -9,55 +9,61 @@
  * @param {ListNode} head
  * @return {void} Do not return anything, modify head in-place instead.
  */
- var reorderList = function(head) {
+
+// Iterative solution
+var reorderList = function(head) {
+    let slow = head, fast = head;
+    while(fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    let prev= null , current = slow, temp = null;
+    while(current) {
+        temp = current.next;
+        current.next = prev;
+        prev = current;
+        current = temp;
+    }
+
+    let first = head, second = prev;
+    while(second.next) {
+        temp = first.next;
+        first.next = second;
+        first = temp;
+
+        temp = second.next;
+        second.next = first;
+        second = temp;
+    }
+    console.log(JSON.stringify(head, null, 2))
+}
+
+
+
+
+// Does not work
+ var reorderList2 = function(head) {
      
     // Split the list in half)
-    let i =0;
-    let node = head
-    while(node) {
-        node = node.next;
-        i++;
+    let slow = head, fast = head;
+    while(fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
     }
     
-    let j = 0;
-    node = head;
-    let list2;
-    let reference;
-    const middle = Math.floor(i/2);
-    let cutPoint;
-    while(j < i) {
-        j++;
-        if(j === middle) {
-            cutPoint = node;
-            reference = node.next ? new ListNode(node.next.val) : null
-            list2 = reference;
-            console.log(list2)
-        } else if(j+1 > middle ) {
-            reference.next = node && new ListNode(node.val)
-        }
-        node = node.next;
+    let prev= null, current = slow, temp = null
+    while(current) {
+        temp = current.next;
+        current.next = prev;
+        prev = current;
+        current = temp;
     }
-    cutPoint.next = null;
-    if(!list2) return head;
-     
-    // Reverse list2
-    let node2 = list2;
-    let prev;
-    while(list2) {
-        list2 = list2.next;
-        node2.next = prev;
-        prev = node2;
-        node2 = list2;
-    }
-     
-    list2 = prev;
-    
-    const result = mergeLists(head, list2, 1)
-     
+    let second = prev;
+    mergeLists(head, second, 1)
     // Do alternative merge between first half of original liist and list2
     function mergeLists(list1, list2, token) {
-        if(!list1) return list2;
-        if(!list2) return null;
+        if(!list1 || !list2) return null;
         if(token > 0) {
             list1.next = mergeLists(list1.next, list2, -1);
             return list1;
@@ -79,6 +85,6 @@ let head = new ListNode(1);
 const two = head.next = new ListNode(2);
 const three = two.next = new ListNode(3);
 const four = three.next = new ListNode(4);
-// const five = four.next = new ListNode(5);
+four.next = new ListNode(5);
 
-reorderList(head)
+reorderList2(head)
