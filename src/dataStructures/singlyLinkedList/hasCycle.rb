@@ -10,5 +10,14 @@
 # @param {ListNode} head
 # @return {Boolean}
 def hasCycle(head)
-    
+    hash = {}
+    while head
+        if !hash[head]
+            hash[head] = :a
+        else
+            return true
+        end
+        head = head.next
+    end
+    false
 end
