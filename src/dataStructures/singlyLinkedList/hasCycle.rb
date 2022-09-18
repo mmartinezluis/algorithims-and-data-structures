@@ -9,6 +9,7 @@
 
 # @param {ListNode} head
 # @return {Boolean}
+# Linear space complexity
 def hasCycle(head)
     hash = {}
     while head

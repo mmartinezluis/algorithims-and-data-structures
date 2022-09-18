@@ -3,5 +3,5 @@
  * @return {number}
  */
  var findDuplicate = function(nums) {
-    
+
 };
