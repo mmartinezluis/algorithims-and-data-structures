@@ -21,3 +21,17 @@ def hasCycle(head)
     end
     false
 end
+
+# Constant space complexity
+def hasCycle(head)
+    dummy = ListNode.new(0)
+    dummy.next = head
+    pointer = dummy
+    curr = dummy
+    while pointer && pointer.next
+        pointer = pointer.next.next
+        curr = curr.next
+        return true if pointer == curr
+    end
+    false
+end
