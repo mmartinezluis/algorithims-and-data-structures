@@ -16,7 +16,7 @@ def add_two_numbers(l1, l2)
     curr = prehead
     carry_over = 0
     while list1 || list2
-        sum = ((list1 && list1.val) || 0) + ((list2 && list2.val) || 0) + 0 + carry_over
+        sum = ((list1 && list1.val) || 0) + ((list2 && list2.val) || 0) + carry_over
         list1 = list1 ? list1.next : nil
         list2 = list2 ? list2.next : nil
         curr.next = ListNode.new(sum%10)
