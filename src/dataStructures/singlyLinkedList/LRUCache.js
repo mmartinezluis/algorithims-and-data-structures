@@ -100,7 +100,8 @@ LRUCache.prototype.put = function(key, value) {
  * @param {ListNode} next 
  */
 // Helper
-let ListNode = function(val, index, next) {
+let ListNode = function(key, val, index, next) {
+    this.key = key;
     this.val = val;
     this.next = null;
     this.prev = null;
@@ -114,11 +115,12 @@ function DoublylinkedList() {
 
 var LRUCache = function(capacity) {
     this.cache = new Map([
-        ["tail", new ListNode()], ["head", new ListNode()]
+        ["tail", null], ["head", null]
     ]);
     this.capacity = capacity;
     this.list = new DoublylinkedList();
 };
+
 
 /** 
  * @param {number} key
@@ -156,7 +158,7 @@ var LRUCache = function(capacity) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-    if(this.cache.size === 0) {
+    if(this.cache.size === 2) {
         const node = new ListNode(value);
         this.cache.set(key, node);
         this.cache.set("head", node);
@@ -188,32 +190,105 @@ LRUCache.prototype.put = function(key, value) {
             return value;
         }
     } else {
-        if(this.cache.size - 2 === capacity) {
-            oldTail = this.cache.get("tail");
-            newTail = oldTail.next;
-            this.cache.delete(oldTail.val);
-            newTail.prev = null;
-            this.cache.set('tail', newTail);
-            oldHead = this.cache.get("head");
-            newHead = new ListNode(value);
-            oldHead.next = newHead;
-            newHead.prev = oldHead;
-            this.set("head", newHead);
-            this.set(value, newHead);      
-            return value;      
-        } else {
-            oldHead = this.cache.get("head");
-            newHead = new ListNode(value);
-            oldHead.next = newHead;
-            newHead.prev = oldHead;
-            this.set("head", newHead);
-            this.set(value, newHead);      
+        newHead = this.cache.get("head");
+        if(this.cache.get(key) === newHead) {
+            newHead.val = value;
+            this.cache.set(key, newHead);
+            this.cache.set("head", newHead);
             return value;
         }
+        
+        if(!this.cache.get(key).prev) {
+            oldTail = this.cache.get(key);
+            oldHead = this.cache.get("head");
+            const temp = oldTail;
+            oldHead.next = temp;
+            temp.prev = oldHead;
+            temp.next  = null;
+            temp.val = value;
+            oldTail.next.prev = null;
+            this.cache.set(key, temp);
+            this.cache.set("tail", oldTail.next);
+            this.cache.set("head", temp);
+            return value;
+        }
+        newHead = this.cache.get(ley);
+        const prev = newHead.prev;
+        prev.next = prev.next.next;
+        prev.next.next.prev = prev;
+        oldHead = this.cache.get("head");
+        newHead.next = null;
+        newHead.prev = oldHead;
+        oldHead.next = newHead;
+        newHead.val = value;
+        this.cache.set(key, newHead);
+        this.cache.set("head") = newHead;
+        return value;
     }
 
 
     if(this.cache.has(key)) this.cache.delete(key);
     this.cache.set(key, value);
     if (this.cache.size > this.capacity) this.cache.delete(this.cache.keys().next().value);
+}
+
+
+
+// General case
+LRUCache.prototype.get = function(key) {
+    if(!this.cache.has(key)) return -1;
+    let newHead = this.cache.get(key);
+    // Key is the head
+    if(!newHead.next) return newHead.val;
+    let oldHead =this.cache.get("head");
+    let oldTail = this.cache.get("tail");
+    // Key is the tail
+    if(!newHead.prev) {
+        const temp = newHead.next;
+        temp.prev = null;
+        this.cache.set("tail", temp);
+    } else {
+        const temp = newHead.prev;
+        temp.next = temp.next.next;
+        temp.next.next.prev = temp;
+    }
+    // DO head operations
+    newHead.next = null;
+    newHead.prev = oldHead;
+    oldHead.next = newHead;
+    this.cache.set("head", newHead);
+    return newHead.val;
+}
+
+// General case
+LRUCache.prototype.put = function(key, value) { 
+    let newHead, oldHead, oldTail
+    oldHead = this.cache.get("head");
+    oldTail = this.cache.get("tail");
+    if(!this.cache.has(key)) {
+        newHead= new ListNode(key, value);
+        this.cache.set(key, newHead);
+        if(this.cache.size - 2 > this.capacity) {
+            this.cache.set("tail", oldTail.next);
+            this.cache.delete(oldTail.key);
+            this.cache.get("tail").prev = null;
+        }
+    } else {
+        newHead = this.cache.get(key);
+        newHead.val = value;
+        if(!newHead.prev) {
+            this.cache.set("tail", newHead.next);
+            const temp = newHead;
+            this.cache.get("tail").prev = null;
+            newHead = temp;
+        } else {
+            const prev = newHead.prev;
+            prev.next = prev.next.next;
+            prev.next.next.prev = prev;
+        }
+    }
+    newHead.prev = oldHead;
+    oldHead.next = newHead;
+    newHead.next = null;
+    return value;
 }
