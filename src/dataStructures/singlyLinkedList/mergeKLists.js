@@ -10,25 +10,16 @@
  * @return {ListNode}
  */
  var mergeKLists = function(lists) {
+    if(lists.length === 1) return lists[0];
+    let i=0;
     let queue = [];
-    queue.push(lists.shift());
-    queue.push(lists.shift());
-
-    let prehead = new ListNode(0);
-    let curr = prehead;
-    while(queue.length) {
-        const union = merge(queue.shift(), queue.shift());
-        if(!union) break;
-        curr.next = union;
-        curr = curr.next;
-        if(lists.length) {
-            queue.push(lists.shift());
-            queue.push(lists.shift());
-        }
+    while(i < lists.length) {
+        queue.push(merge(lists[i], lists[i+1]));
+        i +=2;
     }
-    return prehead.next;
+    return mergeKLists(queue);
  }
- 
+
 
 function merge(l1, l2) {
     if(!l1) return l2;
