@@ -42,6 +42,23 @@ def merge_k_lists2(lists)
     return lists[0]
 end
 
+# Iterative solution, log K space complexity
+def merge_k_lists3(lists)
+    return nil if lists.length == 0
+    k = lists.length
+    while k > 1
+        mergedLists = []
+        Range.new(0, k, true).step(2).each do |i|
+            l1 = lists[i]
+            l2 = lists[i+1]
+            mergedLists << merge(l1, l2)
+        end
+        k = mergedLists.length
+        lists = mergedLists
+    end
+    lists[0]
+end
+
 def merge(l1, l2)
     return l2 if !l1
     return l1 if !l2
@@ -67,4 +84,4 @@ l3.next = ListNode.new(6)
 
 lists = [l1,l2,l3]
 
-merge_k_lists2(lists)
+merge_k_lists3(lists)
