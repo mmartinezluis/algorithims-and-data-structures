@@ -42,7 +42,7 @@ def merge_k_lists2(lists)
     return lists[0]
 end
 
-# Iterative solution, log K space complexity
+# Iterative solution, N log K time complexity
 def merge_k_lists3(lists)
     return nil if lists.length == 0
     k = lists.length
