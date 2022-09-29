@@ -12,22 +12,20 @@ function ListNode(val, next) {
  */
 // Connect the head of one list with the tail of the next lsit
  var reverseKGroup = function(head, k) {
-    let prehead = new ListNode(0)
+    let prehead = new ListNode(0);
     prehead.next = head;
     let dummy = head;
     let prev = null;
-    console.log(dummy)
+    let result;
     while(dummy) {
-        const firstPass = reverse(prev, dummy, k);
-        
-        dummy = firstPass[0];
-        console.log(dummy)
+        const firstPass = reverse(prev, dummy, k);        
+        dummy = firstPass[0]; 
         const secondPass = reverse(prev, firstPass[2], k);
         dummy.next = secondPass[1];
-        dummy = secondPass[0];
-        console.log(dummy)
+        dummy = secondPass[2];
+        result = firstPass[1];
     }
-    // console.log(head)
+    // console.log(result.next);
     return prehead.next;
 };
 
@@ -42,6 +40,20 @@ function reverse(prev, head, k) {
         curr = dummy;
         counter++;
     }
+    if(counter !== k) {
+        // Backtrack
+        let prev2 = null
+        curr = prev;
+        dummy = prev;
+        while(curr) {
+            dummy = dummy.next;
+            curr.next = prev2;
+            prev2 = curr;
+            curr = dummy;
+        }
+        console.log(head)
+        // return [head, prev, curr];
+    }
     const final = [head, prev, curr];
     // console.log(final);
     return final;
@@ -50,8 +62,8 @@ function reverse(prev, head, k) {
 
 let list = new ListNode(1);
 list.next = new ListNode(2);
-list.next.next = new ListNode(3);
-list.next.next.next = new ListNode(4);
-list.next.next.next.next = new ListNode(5);
+// list.next.next = new ListNode(3);
+// list.next.next.next = new ListNode(4);
+// list.next.next.next.next = new ListNode(5);
 
-reverseKGroup(null, list, 3);
+reverseKGroup(list, 3);
