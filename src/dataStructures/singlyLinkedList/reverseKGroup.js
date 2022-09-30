@@ -12,18 +12,35 @@ function ListNode(val, next) {
  */
 // Connect the head of one list with the tail of the next lsit
  var reverseKGroup = function(head, k) {
-    const r =reverse(head, k);
-    console.log(r, head)
     let pointer = head;
-    let o_tail = null;
-    let r_head = null;
+    let r_tail = null;
+    let new_head = null;
     while(pointer) {
         let count = 0;
         while(pointer && count < k) {
             pointer = pointer.next;
             count++;
         }
+
+        if(count === k){
+            const r_head = reverse(head, k);
+    
+            if(!new_head) {
+                new_head = r_head;
+            }
+
+            if(r_tail) {
+                r_tail.next = r_head;
+            }
+
+            r_tail = head;
+            head =pointer;
+        }
     }
+    if(r_tail) {
+        r_tail.next = head;
+    }
+    return new_head ? new_head : head;
 };
 
 function reverse(head, k) {
