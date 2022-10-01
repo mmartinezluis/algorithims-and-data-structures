@@ -68,8 +68,8 @@ class MinBinaryHeap {
             if(child1 !== undefined && node > child1.dist) swapIndex = childIndex;
             if(child2 !== undefined && node > child2.dist && child2.dist < child1.dist) swapIndex = childIndex +1;
             if(swapIndex === null) break;
-            this._swap(this.values, index, childIndex);
-            index = childIndex;
+            this._swap(this.values, index, swapIndex);
+            index = swapIndex;
         }
     }
 
@@ -86,4 +86,6 @@ function distanceToOrigin(point) {
 let points = [[1,3],[-2,2]]; let k = 1;
 points = [[3,3],[5,-1],[-2,4]]
 k = 2
+points = [[-5,4],[-3,2],[0,1],[-3,7],[-2,0],[-4,-6],[0,-5]]
+k = 6
 kClosest(points, k);
