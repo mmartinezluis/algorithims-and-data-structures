@@ -4,7 +4,15 @@
  */
  var KthLargest = function(k, nums) {
     this.k = k;
-    this.nums = mergeSort(nums);
+    let heap = [];
+    for(let i=0; i < nums.length; i++) {
+        heap.push(nums[i]);
+        bubbleUp(heap);
+    }
+    while(heap.length > k) {
+        extractMin(heap);
+    }
+    this.heap = heap;
 };
 
 /** 
@@ -12,36 +20,13 @@
  * @return {number}
  */
 KthLargest.prototype.add = function(val) {
-    this.nums.push(val);
-    let index = this.nums.length -1;
-    while(index > 0) {
-        let parentIndex = Math.floor((index -1)/2);
-        let parent = this.nums[parentIndex];
-        if(parent > val) break;
-        this.nums[parentIndex] = val;
-        this.nums[index] = parent;
-        index = parentIndex;
+    this.heap.push(val);
+    bubbleUp(this.heap);
+    if(this.heap.length > this.k) {
+        extractMin(this.heap);
     }
-    let nodeIndex = 0;
-    this.k--;
-    if(k === 0) return this.nums[nodeIndex];
-    let child1Index;
-    while(this.k > 0) {
-        child1Index = 2*nodeIndex +1;
-        const child1 = this.nums[child1Index];
-        const child2 = this.nums[child1Index +1];
-        this.k--;
-        if(k === 0) return child1;
-        nodeIndex = child1Index;
-        if(child2 !== undefined) {
-            this.k--;
-            if(k === 0) return child2;
-            nodeIndex = child1Index + 1;
-        }   
-    }
+    return this.heap[0];
 };
-
-
 
 /** 
  * Your KthLargest object will be instantiated and called as such:
@@ -49,26 +34,58 @@ KthLargest.prototype.add = function(val) {
  * var param_1 = obj.add(val)
  */
 
-function mergeSort(arr) {
-    if(arr.length <= 1) return arr;
-    const midPoint = Math.floor(arr.length/2);
-    let result = merge(mergeSort(arr.slice(0, midPoint), mergeSort(midPoint)));
-    return result;
+function bubbleUp(arr){
+    let index = arr.length -1;
+    let node, parentIndex, parent;
+    while(index > 0) {
+        node = arr[index];
+        parentIndex = Math.floor((index -1)/2);
+        parent = arr[parentIndex];
+        if(parent < node) break;
+        arr[parentIndex] = node;
+        arr[index] = parent;
+        index = parentIndex;
+    }
 }
 
-function merge(arr1, arr2) {
-    let i = 0;
-    let j = 0;
-    let result = [];
-    while(i < arr1.length && j < arr2.length) {
-        if(arr1[i] > arr2[j]) {
-            result.push(arr2[i]);
-            i++;
-        } else {
-            result.push(arr1[j]);
-            j++;
-        }
+function extractMin(arr) {
+    const min = arr[0];
+    const end = arr.pop();
+    if(arr.length > 0) {
+        arr[0] = end;        
+        _bubbleDown(arr);
     }
-    i < arr1.length ? result.concat(arr1.slice(i)) : result.concat(arr2.slice(j));
-    return result;
+    return min;
 }
+
+function _bubbleDown(arr) {
+    let nodeIndex = 0;
+    let node, childIndex, child1, child2;
+    while(nodeIndex < arr.length -1) {
+        let swapIndex = null;
+        node = arr[nodeIndex];
+        childIndex = 2*nodeIndex + 1;
+        child1 = arr[childIndex];
+        child2 = arr[childIndex +1];
+        if(child1 !== undefined && node > child1) swapIndex = childIndex;
+        if(child2 !== undefined && node > child2 && child2 < child1) swapIndex = childIndex +1;
+        if(swapIndex === null) break;
+        _swap(arr, nodeIndex, swapIndex)
+        nodeIndex = swapIndex;
+    }
+}
+
+function _swap(arr, index1, index2) {
+    [ arr[index1], arr[index2] ] = [ arr[index2], arr[index1] ];
+}
+
+
+// Test
+let problem = new KthLargest(2, [0]);
+problem.add(-1);
+problem.add(1);
+problem.add(2);
+problem.add(-4);
+problem.add(3)
+console.log(problem.heap)
+
