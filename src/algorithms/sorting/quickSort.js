@@ -1,6 +1,7 @@
 function pivot(arr, comparator, start=0, end=arr.length - 1){
     let value = arr[start];
     let swapIndex = start;
+    console.log(end)
     if(typeof(comparator) !== 'function') comparator = compare;
     for(let i = start + 1; i < arr.length; i++){    
         if(comparator(value, arr[i]) > 0){
@@ -29,6 +30,11 @@ function pivot(arr, comparator, start=0, end=arr.length - 1){
         quickSort(arr, comparator, left, pivotIndex -1);
         quickSort(arr, comparator, pivotIndex +1, right);
     }
+    // console.log(arr)
     return arr;
     
   }
+
+const arr=[8,-9,-10,11,5,12,-13,-14,15];
+
+quickSort(arr)
