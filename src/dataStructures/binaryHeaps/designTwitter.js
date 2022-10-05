@@ -1,6 +1,6 @@
 
 var Twitter = function() {
-    
+    this.users = new Map();
 };
 
 /** 
@@ -9,7 +9,24 @@ var Twitter = function() {
  * @return {void}
  */
 Twitter.prototype.postTweet = function(userId, tweetId) {
-    
+    let timeStamp = +new Date();
+    let tweet = {};
+    tweet.id = tweetId;
+    tweet.timeStamp = timeStamp;
+    if(this.users.has(userId)){
+        this.users.get(userId).tweets.push(tweet);
+        this.addToFeed(userId, tweet);
+        for(followerId of this.get(userId).followers) {
+            this.addToFeed(followerId, tweet);
+        }
+    } else {
+        let data = {};
+        data.tweets = [tweet];
+        data.followees = [];
+        data.followers = [];
+        data.newsFeed = [];
+        this.users.set(userId, data);
+    }
 };
 
 /** 
@@ -17,7 +34,12 @@ Twitter.prototype.postTweet = function(userId, tweetId) {
  * @return {number[]}
  */
 Twitter.prototype.getNewsFeed = function(userId) {
-    
+    const tweets = this.users.get(userId).newsFeed;
+    let result = [];
+    for(let i = tweets.length-1; i >= 0; i--) {
+        result.push(tweets[i]);
+    }
+    return result;
 };
 
 /** 
@@ -26,7 +48,7 @@ Twitter.prototype.getNewsFeed = function(userId) {
  * @return {void}
  */
 Twitter.prototype.follow = function(followerId, followeeId) {
-    
+    this.users.get(followerId).followees.push(followeeId);
 };
 
 /** 
@@ -35,8 +57,16 @@ Twitter.prototype.follow = function(followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function(followerId, followeeId) {
-    
+    this.users.get(followerId).followees.push(followeeId);  
 };
+
+Twitter.prototype.addToFeed = function(userId, tweet) {
+    const length = this.users.get(userId).newsFeed.length;
+    this.users.get(userId).newsFeed.push(tweet);
+    if(length > 9) {
+        this.users.get(userId).tweets.shift();
+    }
+}
 
 /** 
  * Your Twitter object will be instantiated and called as such:
@@ -46,3 +76,5 @@ Twitter.prototype.unfollow = function(followerId, followeeId) {
  * obj.follow(followerId,followeeId)
  * obj.unfollow(followerId,followeeId)
  */
+
+
