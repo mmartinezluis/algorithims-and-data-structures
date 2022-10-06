@@ -20,8 +20,7 @@ Twitter.prototype.postTweet = function(userId, tweetId) {
         // create user if not existing
         this.createUser(userId, tweet)
     }
-    // Rare, but user may already be followed without being created
-    for(followerId of this.get(userId).followers) {
+    for(let followerId of this.users.get(userId).followers) {
         this.addToFeed(followerId, tweet);
     }
 };
@@ -33,6 +32,7 @@ Twitter.prototype.createUser = function (userId, tweet=null) {
     data.followers = [];
     data.newsFeed = tweet ? new MinBinaryHeap([tweet]) : new MinBinaryHeap();
     this.users.set(userId, data);
+    return this.users.get(userId);
 }
 
 /** 
@@ -54,16 +54,14 @@ Twitter.prototype.getNewsFeed = function(userId) {
  * @return {void}
  */
 Twitter.prototype.follow = function(followerId, followeeId) {
+    if(!this.users.has(followerId)) this.createUser(followerId);
     this.users.get(followerId).followees.push(followeeId);
     // Handle the follwee tweets
     let userFeed = this.users.get(followerId).newsFeed;
-    let followeeUser
-    if(this.users.has(followeeId)) {
-
-    }
-
-    if(followeeTweets && followeeTweets.tweets.length > 0) {
-        followeeTweets = followeeTweets.tweets;
+    let followeeUser = this.users.has(followeeId) ? this.users.get(followeeId) : this.createUser(followeeId);
+    this.users.get(followeeId).followers.push(followerId);
+    let followeeTweets = followeeUser.tweets;
+    if(followeeTweets.length > 0) {
         const user_min_tweet = userFeed.values[0];
         const last_tweet = followeeTweets[followeeTweets.length -1];
         if(userFeed.length < 10 || (last_tweet.timeStamp > user_min_tweet.timeStamp)) {
@@ -80,13 +78,17 @@ Twitter.prototype.follow = function(followerId, followeeId) {
  * @return {void}
  */
 Twitter.prototype.unfollow = function(followerId, followeeId) {
-    const updatedFollowees = this.users.get(followerId).followees.filter(id => id !== followeeId);
     const feed = this.users.get(followerId).newsFeed;
     feed.values = feed.values.filter(({user}) => user !== followeeId);
     this.users.set(followerId, 
         {...this.users.get(followerId), 
-            followees: updatedFollowees, 
+            followees: this.users.get(followerId).followees.filter(id => id !== followeeId),
             newsFeed: feed
+        }
+    )
+    this.users.set(followeeId, 
+        {...this.users.get(followeeId), 
+            followers: this.users.get(followeeId).followers.filter(id => id !== followeeId)
         }
     )
 };
