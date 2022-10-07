@@ -5,7 +5,6 @@
  */
  var search = function(nums, target) {
      if(!nums.length) return -1;
-     if(nums.length === 1 && nums[0] === target) return 0;
     let i=0;
     let j= nums.length-1;
     let pointer;
