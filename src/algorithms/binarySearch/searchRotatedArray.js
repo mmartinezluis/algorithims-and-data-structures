@@ -54,6 +54,7 @@ var search2 = function(nums, target) {
             else right = pointer -1;
         }
     }
+    return -1;
 }
 
 // TEST
