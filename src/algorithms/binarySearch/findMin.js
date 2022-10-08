@@ -6,18 +6,6 @@
     const pivot = findRotationIndex(nums);
     return nums[pivot];
 };
- var findMin2 = function(nums) {
-    let array = nums;
-    let rotation = findRotationIndex(array);
-    if(rotation === 0) return array[0];
-    let count = 1;
-    while(rotation !== 0) {
-        rotation = findRotationIndex(array);
-        count++;
-        array = array.slice(rotation).concat((array.slice(0, rotation)));
-    }
-    return array[0];
-};
 
 function findRotationIndex(arr) {
     let left = 0;
