@@ -25,7 +25,7 @@ TimeMap.prototype.set = function(key, value, timestamp) {
 TimeMap.prototype.get = function(key, timestamp) {
     const arr = this.timeMap[key];
     if(!arr) return "";
-    return findTimeStamp(this.timeMap[key], timestamp) || ""
+    return findTimeStamp(arr, timestamp) || ""
 };
 
 /** 
