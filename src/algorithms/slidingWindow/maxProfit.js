@@ -5,7 +5,6 @@
  var maxProfit = function(prices) {
     let i = 0;
     let min = Number.MAX_SAFE_INTEGER;
-    let max = 0;
     let ans = 0;
     while(i + 1 < prices.length) {
         if(prices[i+1] > prices[i]) {
