@@ -18,6 +18,7 @@
     let copyCount = {...sCount};
     while(i <= j) {
         // starting from the left
+        if(sCount[s[i]] !== undefined && count[s[i]] > sCount[s[i]]) return ""
         if(sCount[s[i]] > count[s[i]]) {
             sCount[s[i]] -= 1;
             i++;
@@ -34,6 +35,7 @@
     let m=s.length-1;
     while(i <= j) {
         // starting from the right
+        if(copyCount[s[i]] !== undefined && count[s[i]] > copyCount[s[i]]) return ""
         if(copyCount[s[m]] > count[s[m]]) {
             copyCount[s[m]] -= 1;
             m--;
@@ -46,13 +48,60 @@
             k++;
         } else break;
     }
-    console.log(i, j, s.slice(i,j+1))
-    console.log(k, m, s.slice(k,m+1))
+    // console.log(i, j, s.slice(i,j+1))
+    // console.log(k, m, s.slice(k,m+1))
     return j - i < m - k ? s.slice(i, j+1) : s.slice(k, m+1)
+};
+
+
+var minWindow = function(s, t) {
+    let tCount = {};
+    let total = 0;
+    let s_total = 0;
+    let sCount  = {};
+    for(let char of t ) {
+        tCount[char] = ++tCount[char] || 1;
+        total++;
+    }
+    [i] = [0];
+    [x, y] = [0, Number.MAX_SAFE_INTEGER];
+    while(i < s.length && j < s.length) {
+        if(tCount[s[j]] !== undefined) {
+            sCount[s[j]] = ++sCount[s[j]] || 1;
+            s_total++;
+            if(sCount[s[j]] === tCount[s[j]] && total === s_total) {
+                if(y - x > j - i) {
+                    y = j
+                    x = i
+                } 
+            } else if(sCount[s[j]] > tCount[s[j]] || s_total > total) {
+                sCount[s[i]] -= 1;
+                i++;
+                s_total--;
+                while(tCount[s[i]] === undefined) {
+                    i++;
+                }
+                if(sCount[s[i]] === tCount[s[i]] && total === s_total) {
+                    if(y - x > j - i) {
+                        y = j
+                        x = i
+                    } 
+                }
+            }  
+        }
+        j++;
+        if(tCount[s[i]] === undefined) i++;
+    }
+    console.log(x, y)
+    y === Number.MAX_SAFE_INTEGER ? "" : console.log(s.slice(x, y+1));
 };
 
 let s = "ADOBECODEBANC" 
 let t = "ABC"
 // s="a"
 // t="a"
+s="cabwefgewcwaefgcf"
+t="cae"
+s="ab"
+t="b"
 minWindow(s,t)
