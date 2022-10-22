@@ -63,7 +63,7 @@ var minWindow = function(s, t) {
         tCount[char] = ++tCount[char] || 1;
         total++;
     }
-    [i] = [0];
+    [i, j] = [0, 0];
     [x, y] = [0, Number.MAX_SAFE_INTEGER];
     while(i < s.length && j < s.length) {
         if(tCount[s[j]] !== undefined) {
@@ -96,12 +96,48 @@ var minWindow = function(s, t) {
     y === Number.MAX_SAFE_INTEGER ? "" : console.log(s.slice(x, y+1));
 };
 
+// Solution
+var minWindow = function(s, t) {
+    let tCount = {};
+    let total = 0;
+    let s_total = 0;
+    let sCount  = {};
+    for(let char of t ) {
+        tCount[char] = ++tCount[char] || 1;
+        // total++;
+    }
+    total = Object.keys(tCount).length
+    let i = 0;
+    [x, y] = [0, Number.MAX_SAFE_INTEGER];
+    for(let j=0; j < s.length; j++) {
+        if(tCount[s[j]] !== undefined) {
+            sCount[s[j]] = ++sCount[s[j]] || 1;
+            if(sCount[s[j]] === tCount[s[j]]) {
+                s_total++;
+            }
+            while(s_total === total) {
+                if(y - x > j - i) {
+                    y = j
+                    x = i
+                } 
+                if(tCount[s[i]] ) {
+                    sCount[s[i]] -= 1;
+                    if(sCount[s[i]] < tCount[s[i]]) s_total--;
+                }   
+                i++;
+            }
+        }
+    }
+    // console.log(x,y)
+    return y === Number.MAX_SAFE_INTEGER ? "" : s.slice(x, y+1)
+}
+
 let s = "ADOBECODEBANC" 
 let t = "ABC"
 // s="a"
 // t="a"
 s="cabwefgewcwaefgcf"
 t="cae"
-s="ab"
-t="b"
+// s="ab"
+// t="b"
 minWindow(s,t)
