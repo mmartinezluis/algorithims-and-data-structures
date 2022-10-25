@@ -9,35 +9,27 @@
     for(let i=0; i < k; i++) {
         heap.add({value: nums[i], index: i});
     }
-    // let max = heap.extractMax();
     let max = heap.values[0];
     let i = 0;
     result.push(max.value);
     for(let j=k; j < nums.length; j++) {
         i++;
-        // console.log(heap.values, i)
         if(max.index < i) {
-            heap.extractMax();
-            // max = heap.values[0];
+            let temp = heap.extractMax();
+            while(temp.value === heap.values[0].value) {
+                temp = heap.extractMax();
+            }
             max = {value: Number.MIN_SAFE_INTEGER};
         }
-        // console.log("after", heap.values)
         heap.add({value: nums[j], index: j});
         if(heap.values[0].value > max.value) {
             max = heap.values[0];
         }
         result.push(max.value);
-        // heap.extractMax();
     }
-
     console.log(result)
     return result;
 };
-
-let nums = [1,3,-1,-3,5,3,6,7] 
-let k = 3
-// nums = [1,3,1,2,0,5]
-// k = 3
 
 
 class MaxBinaryHeap {
@@ -93,7 +85,74 @@ function swap(arr, index1, index2) {
     [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 }
 
+var maxSlidingWindow = function(nums, k) {
+    let deque = [];
+    let result = [];
+    let max = Number.MIN_SAFE_INTEGER;
+    let index;
+    for(let t=0; t < k; t++) {
+        deque.push(nums[t]);
+        if(nums[t] > max) {
+            max = nums[t];
+            index = t;
+        }
+    }
+    result.push(nums[index]);
+    let i = 0;
+    for(let j=k; j < nums.length; j++) {
+        let temp = index - i
+        while(temp > 0) {
+            deque.shift();
+            temp--;
+        }
+        i++;
+        if(index < i) {
+            deque.shift();
+            index = i
+        }
 
+        deque.push(nums[j]);
+        if(nums[j] > nums[index]) index = j;
+        result.push(nums[index]);
+    }
+    console.log(result)
+    // console.log(deque)
+    return result;
+}
 
+// Solution
+var maxSlidingWindow = function(nums, k) {
+    let result = [];
+    let queue = [];
+    let i = 0;
+    let j = 0;
+    while(j < nums.length) {
+        while(queue.length && nums[queue[queue.length-1]] < nums[j]) {
+            queue.pop();
+        }
+        queue.push(j);
+
+        if(i > queue[0]) {
+            queue.shift();
+        }
+
+        if(j + 1 >= k) {
+            result.push(nums[queue[0]]);
+            i++;
+        }
+        j++;
+    }
+    console.log(result);
+    return result;
+}
+
+let nums = [1,3,-1,-3,5,3,6,7] 
+let k = 3
+nums = [1,3,1,2,0,5]
+k = 3
+nums= [-7,-8,7,5,7,1,6,0]
+k= 4
+nums= [9,10,9,-7,-4,-8,2,-6]
+k= 5
 
 maxSlidingWindow(nums, k);
