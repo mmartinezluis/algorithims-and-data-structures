@@ -9,21 +9,35 @@
     for(let i=0; i < k; i++) {
         heap.add({value: nums[i], index: i});
     }
-    let max = heap.extractMax();
+    // let max = heap.extractMax();
+    let max = heap.values[0];
     let i = 0;
     result.push(max.value);
     for(let j=k; j < nums.length; j++) {
         i++;
+        // console.log(heap.values, i)
+        if(max.index < i) {
+            heap.extractMax();
+            // max = heap.values[0];
+            max = {value: Number.MIN_SAFE_INTEGER};
+        }
+        // console.log("after", heap.values)
         heap.add({value: nums[j], index: j});
-        if(max.index < i || heap.values[0].value > max.value) {
+        if(heap.values[0].value > max.value) {
             max = heap.values[0];
         }
         result.push(max.value);
-        heap.extractMax();
+        // heap.extractMax();
     }
+
     console.log(result)
     return result;
 };
+
+let nums = [1,3,-1,-3,5,3,6,7] 
+let k = 3
+// nums = [1,3,1,2,0,5]
+// k = 3
 
 
 class MaxBinaryHeap {
@@ -80,7 +94,6 @@ function swap(arr, index1, index2) {
 }
 
 
-let nums = [1,3,-1,-3,5,3,6,7] 
-let k = 1
+
 
 maxSlidingWindow(nums, k);
