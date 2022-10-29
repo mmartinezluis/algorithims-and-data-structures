@@ -26,7 +26,7 @@
     let result =[];
     while(queue.length) {
         const course = queue.shift();
-        for(let neighbor of graph.get(course)) {
+        for(let neighbor of (graph.get(course) || [])) {
             indegree[neighbor] -= 1;
             if(indegree[neighbor] === 0) queue.push(neighbor);
         }
@@ -37,10 +37,9 @@
 };
 
 
-
 let numCourses = 2 
 let prerequisites = [[1,0],[0,1]]
-
+prerequisites = []
 canFinish(numCourses, prerequisites)
 
 // Using DFS
