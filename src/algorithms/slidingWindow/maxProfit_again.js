@@ -19,4 +19,4 @@
 // prices = [7,6,4,3,1]
 // prices = [2,1,2,0,1]
 // prices = [7,3,5,6,1,7]
-maxProfit(prices)
+maxProfit(prices);
