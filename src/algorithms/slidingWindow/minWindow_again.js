@@ -23,16 +23,16 @@
         tMap[char] = ++tMap[char] || 1;
     }
     let i = 0;
-    let x=0; 
-    let y= Number.MAX_SAFE_INTEGER;
-    for(let j=0; j < s.length; s++) {
+    let x = 0; 
+    let y = Number.MAX_SAFE_INTEGER;
+    for(let j=0; j < s.length; j++) {
         if(tMap[s[j]] !== undefined) {
             sMap[s[j]] = ++sMap[s[j]] || 1;
             if(sMap[s[j]] === tMap[s[j]]) {
                 s_total++;
             }
         }
-        
+        // console.log(j)
         while(t_total === s_total) {
             if( y - x > j - i) {
                 y=j;
@@ -47,7 +47,17 @@
             i++;
         }
     }
-
+    // console.log(s_total)
     console.log(y === Number.MAX_SAFE_INTEGER ? "" : s.slice(x, y+1))
     return y === Number.MAX_SAFE_INTEGER ? "" : s.slice(x, y+1)
  }
+
+let s = "ADOBECODEBANC" 
+let t = "ABC"
+s="a"
+t="a"
+// s="cabwefgewcwaefgcf"
+// t="cae"
+// s="ab"
+// t="b"
+minWindow(s,t)
