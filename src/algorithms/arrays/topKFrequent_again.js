@@ -4,7 +4,8 @@
  * @return {number[]}
  */
 
-// Solution 1: using a max binary heap
+// **************** Solution 1: ********************
+// using a max binary heap
 // Strategy: construct a max binary heap out of the input array;
 // extract the max element as many times as k, and push element
 // to output array. Return output array
@@ -77,3 +78,57 @@
  function swap(arr, u, v) {
     [arr[u], arr[v]] = [arr[v], arr[u]]
  }
+
+//****************  Solution 2 ********************
+//  using the Quick Select algorithm
+ var topKFrequent = function(nums, k) {
+    const map = new Map();
+    for(let int of nums) {
+        map.has(int) ? map.set(int, map.get(int) + 1) : map.set(int, 1);
+    }
+    const keysArray = [...map.keys()];
+    quickSelect(keysArray, 0, keysArray.length -1, keysArray.length - k);
+    
+    console.log(keysArray.slice(keysArray.length - k));
+
+    return keysArray.slice(keysArray.length - k);
+
+
+    function quickSelect(arr, left, right, k) {
+        if(left === right) return;
+        const randomPivot = Math.floor(Math.random()*(right - left) + left);
+        const pivotValue = rotate(arr, left, right, randomPivot);
+        if(k === pivotValue){ return arr[k]; }
+        else if(k > pivotValue) { quickSelect(arr, pivotValue + 1, right, k); } 
+        else { quickSelect( arr, left, pivotValue - 1, k) }
+     }
+    
+     function rotate(arr, left, right, randomPivot) {
+        const value = map.get(arr[randomPivot]);
+        let swapIndex = left;
+        swap(arr, randomPivot, right);
+        for(let i = left; i < right; i++) {
+            if(map.get(arr[i]) < value) {
+                swap(arr, i, swapIndex);
+                swapIndex++;
+            }
+        }
+        swap(arr, swapIndex, right);
+        return swapIndex;
+     }
+    
+     function swap(arr, u, v) {
+        [arr[u], arr[v]] = [arr[v], arr[u]]
+     }
+ }
+
+
+
+
+ let array = [22,-4, 11, 8, 3, 5, -2, 0], k = 8
+ // array = [3,5,-2], k=2
+ // partition(array,0,7, k);
+ array = [1,5,5,5,5,3,3,3,8,2];
+ k=1;
+ topKFrequent(array, k)
+

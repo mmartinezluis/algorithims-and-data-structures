@@ -9,9 +9,11 @@
 };
 
 function select(arr, left, right, k) {
+    console.log(left, "\n")
     let pivotIndex = Math.floor(Math.random()*(right - left) + left);
     pivotIndex = partition(arr, left, right, pivotIndex);
     if(k === pivotIndex) {
+        // console.log(arr, arr[k])
         return arr[k];
     } else if(k < pivotIndex) {
         return select(arr, left, pivotIndex -1, k);
@@ -23,6 +25,7 @@ function select(arr, left, right, k) {
 function partition(arr, left, right, pivot) {
     let value = arr[pivot];
     let pivotIndex = left;
+    // console.log(left)
     swap(arr, pivot, right);
     for(let i=left; i < right; i++) {
         if(arr[i] < value) {
@@ -41,4 +44,6 @@ function swap(arr, index1, index2) {
 let array = [22,-4, 11, 8, 3, 5, -2, 0], k = 8
 // array = [3,5,-2], k=2
 // partition(array,0,7, k);
+array = [1,5,3,8,2];
+k=2;
 findKthLargest(array, k)
