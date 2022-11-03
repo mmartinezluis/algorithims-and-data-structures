@@ -27,7 +27,7 @@
         rowMap = {};
         columnMap = {};
     }
-    console.log(true)
+    
     return true;
  }
  let board = [
