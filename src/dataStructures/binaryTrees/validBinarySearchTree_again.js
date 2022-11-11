@@ -21,3 +21,17 @@
     }
     return dfs(root);
  }
+
+
+//  dfs in-order traveral solution
+var isValidBST = function(root) {
+    let prev = Number.MIN_SAFE_INTEGER;
+    function dfs(node) {
+        if(!node) return true;
+        if(!dfs(node.left)) return false;
+        if(prev >= node.val) return false;
+        prev = node.val;
+        return dfs(node.right);
+    }
+    return dfs(root);
+ }

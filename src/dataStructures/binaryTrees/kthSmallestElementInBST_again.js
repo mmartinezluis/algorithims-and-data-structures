@@ -22,5 +22,4 @@
     }
     dfs(root);
     return result[k-1];
-    
  }
