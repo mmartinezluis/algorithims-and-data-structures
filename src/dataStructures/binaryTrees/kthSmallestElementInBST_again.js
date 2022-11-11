@@ -11,5 +11,15 @@
  * @param {number} k
  * @return {number}
  */
+// Strategy: run a dfs in-order traversal algorithm;
+// return the k - 1 element from traversal output
  var kthSmallest = function(root, k) {
+    let result = [];
+    function dfs(node) {
+        if(node.left) dfs(node.left);
+        result.push(node.val);
+        if(node.right) dfs(node.right);
+    }
+    dfs(root);
+    return result[k-1];
  }
