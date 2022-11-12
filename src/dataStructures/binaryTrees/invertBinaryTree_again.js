@@ -11,5 +11,14 @@
  * @return {TreeNode}
  */
  var invertTree = function(root) {
-
+    dfs(root)
+    return root;
+    function dfs(node) {
+        if(!node) return null;
+        const left = node.left;
+        node.left = node.right;
+        node.right = left;
+        dfs(node.left);
+        dfs(node.right);
+    }
  }
