@@ -10,6 +10,7 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
+// O(n log(n)) solution; revisit for O(n) solution
  var isBalanced = function(root) {
     if(!root) return true;
     if(Math.abs(dfs(root.left) - dfs(root.right)) <= 1) return isBalanced(root.left) && isBalanced(root.right)
