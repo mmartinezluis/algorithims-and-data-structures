@@ -10,6 +10,13 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
- function height(root) {
+ var isBalanced = function(root) {
+    if(!root) return true;
+    if(Math.abs(dfs(root.left) - dfs(root.right)) <= 1) return isBalanced(root.left) && isBalanced(root.right)
+    return false;
 
+    function dfs(node) {
+        if(!node) return 0;
+        return 1 + Math.max(dfs(node.left), dfs(node.right))
+    }
  }
