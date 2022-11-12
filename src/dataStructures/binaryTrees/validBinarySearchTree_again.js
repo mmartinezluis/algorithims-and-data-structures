@@ -10,16 +10,13 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
-// Strategy: run a dfs in-order traversal and 
-// excecute conditional statements
  var isValidBST = function(root) {
-    function dfs(node) {
+    return valid(root, undefined, undefined);
+    function valid(node, lowerBound, upperBound)  {
         if(!node) return true;
-        if(node.left && node.left.val >= node.val) return false;
-        if(node.right && node.right.val <= node.val) return false;
-        return dfs(node.left) && dfs(node.right);
+        if(node.val <= lowerBound || node.val >= upperBound) return false;
+        return valid(node.left, lowerBound, node.val) && valid(node.right, node.val, upperBound);
     }
-    return dfs(root);
  }
 
 
