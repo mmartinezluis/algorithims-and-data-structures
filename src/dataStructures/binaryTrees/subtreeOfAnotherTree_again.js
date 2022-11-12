@@ -11,6 +11,15 @@
  * @param {TreeNode} subRoot
  * @return {boolean}
  */
+// Recursive solution
+ var isSubtree = function(root, subRoot) {
+    if(!root) return false;
+    if(sameTree(root, subRoot)) return true;
+    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+ }
+
+
+// Using BSF, intitially
  var isSubtree = function(root, subRoot) {
     let queue = [root];
     while(queue.length) {
