@@ -10,25 +10,21 @@
  * @param {number} k
  * @return {ListNode}
  */
+
+// Recursive solution
  var reverseKGroup = function(head, k) {
     let node = head;
-    let rh;
-    const ans = fullReversal(node);
-    console.log(ans.next.next);
-
+    let dummy;
+    return fullReversal(node);
     function fullReversal(node) {
         let i = 0;
-        let dummy = node;
-        while(i < k && dummy.next){
+        dummy = node;
+        while(i < k && dummy){
             dummy = dummy.next;
             i++;
         }
-        if(i + 1 < k) return node;
+        if(i < k) return node;
         const linkage = reverse(node);
-        // reverse(node);
-        // rh = node;
-        // console.log(rh, dummy)
-        // rh.next = fullReversal(linkage[1]);
         node.next = fullReversal(dummy);
         return linkage;
     }   
@@ -42,7 +38,6 @@
             prev = node;
             node = temp;
         }
-        // return [prev, node];
         return prev;
     }
  }
@@ -72,6 +67,5 @@
  list.add(3);
  list.add(4);
  list.add(5);
-//  console.log(list.head);
- reverseKGroup(list.head, 2)
+ reverseKGroup(list.head, 5)
 
