@@ -13,21 +13,24 @@
  var reverseKGroup = function(head, k) {
     let node = head;
     let rh;
-
     const ans = fullReversal(node);
-    console.log(ans)
+    console.log(ans.next.next);
 
     function fullReversal(node) {
-        let i =0;
+        let i = 0;
         let dummy = node;
-        while( i < k && dummy){
+        while(i < k && dummy.next){
             dummy = dummy.next;
+            i++;
         }
         if(i + 1 < k) return node;
-        const linkage = reverse(node)[0];
-        rh = linkage[0];
-        rh.next = fullReversal(linkage[1]);
-        return node;
+        const linkage = reverse(node);
+        // reverse(node);
+        // rh = node;
+        // console.log(rh, dummy)
+        // rh.next = fullReversal(linkage[1]);
+        node.next = fullReversal(dummy);
+        return linkage;
     }   
 
     function reverse(node) {
@@ -39,7 +42,8 @@
             prev = node;
             node = temp;
         }
-        return [prev, node];
+        // return [prev, node];
+        return prev;
     }
  }
 
@@ -48,8 +52,9 @@
  }
 
  SinglyLinkedList.prototype.add = function(node) {
+    node = new ListNode(node);
     if(!this.head) {this.head = node; return;}
-    const dummy = this.head;
+    let dummy = this.head;
     while(dummy.next) {
         dummy = dummy.next;
     }
@@ -57,7 +62,7 @@
  }
 
  function ListNode(val) {
-    this.val = this.val !== undefined ? val : 0;
+    this.val = val !== undefined ? val : 0;
     this.next = null;
  }
 
@@ -67,4 +72,6 @@
  list.add(3);
  list.add(4);
  list.add(5);
- console.log(list)
+//  console.log(list.head);
+ reverseKGroup(list.head, 2)
+
