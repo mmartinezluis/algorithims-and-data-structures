@@ -16,6 +16,7 @@
     let node = head;
     let dummy;
     return fullReversal(node);
+
     function fullReversal(node) {
         let i = 0;
         dummy = node;
@@ -31,7 +32,7 @@
 
     function reverse(node) {
         let prev = null;
-        let count = k;
+        let count = k
         while(count--) {
             const temp = node.next;
             node.next = prev;
