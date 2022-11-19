@@ -11,6 +11,7 @@
  * @param {Node} head
  * @return {Node}
  */
+// O(n) space
  var copyRandomList = function(head) {
     let map = new Map();
     let prehead = new Node();
@@ -27,4 +28,36 @@
         node = node.next;
     }
     return prehead.next;
+ }
+
+//  Interweave the copied nodes into the original list
+ var copyRandomList = function(head) {
+    if(!head) return head;
+    let node = head;
+    // interweave the copied nodes into the original list
+    while(node) {
+        const copy = new Node(node.val);
+        copy.next = node.next;
+        node.next = copy;
+        node = node.next.next;
+    }
+
+    node = head;
+    // make the copied nodes pointer reference the original node's pointer
+    while(node) {
+        node.next.random = node.random ? node.random.next : null;
+        node = node.next.next;
+    }
+
+    node = head;
+    let dummy = head.next;
+    let new_head = head.next;
+    // Unweave the copied list and the original list
+    while(node) {
+        node.next = node.next.next;
+        dummy.next = dummy.next ? dummy.next.next : null;
+        node = node.next;
+        dummy = dummy.next;
+    }
+    return new_head;
  }
