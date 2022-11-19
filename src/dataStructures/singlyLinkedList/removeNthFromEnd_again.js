@@ -13,17 +13,17 @@
  var removeNthFromEnd = function(head, n) {
     let ptr = head;
     let count = 1;
-    while(prt && ptr.next) {
+    while(ptr && ptr.next) {
         ptr = ptr.next.next;
         count += 2;
     }
     if(!ptr) count--;
     if(n === count) return head.next;
 
-    count = count - n;
+    count = count - n - 1;
     ptr = head;
     while(count--) {
-      ptr = prt.next;
+      ptr = ptr.next;
     }
     ptr.next = ptr.next.next;
     return head;
