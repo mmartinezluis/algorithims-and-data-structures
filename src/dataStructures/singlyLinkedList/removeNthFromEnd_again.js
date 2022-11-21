@@ -28,3 +28,24 @@
     ptr.next = ptr.next.next;
     return head;
  }
+
+//  complete later
+ var removeNthFromEnd = function(head, n) {
+    let prehead = new ListNode();
+    prehead.next = head;
+    let dummy = prehead;
+    let first = dummy;
+    let second = dummy;
+
+    for(let i =1; i <= n; i++) {
+        first = first.next;
+    }
+
+    while(first) {
+        first = first.next;
+        second = second.next;
+    }
+
+
+
+ }
