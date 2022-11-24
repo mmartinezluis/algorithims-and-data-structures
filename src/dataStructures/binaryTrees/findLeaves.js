@@ -13,6 +13,8 @@
 
  var findLeaves = function(root) {
     let map = new Map();
+    dfs(root);
+    return [...map.values()];
 
     function dfs(node) {
         if(!node) return false;
@@ -29,7 +31,7 @@
     return 1 + Math.max(height(node.left), height(node.right));
  }
 
- let root = new TreeNode(1);
+let root = new TreeNode(1);
 root.left = new TreeNode(2);
 root.right = new TreeNode(3);
 root.left.left = new TreeNode(4);
