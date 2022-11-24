@@ -11,25 +11,26 @@
  * @return {number[][]}
  */
 
+// Strategy: the height of the nodes provides the information for collecting 
+// the leaves of the tree one cycle at a time. Nodes with height 1 will be
+// the leaves of the tree; then nodes with height two will be the leaves of
+// the tree if nodes with height one are removed (nodes with height two are the next leaves)
+// Hence, determine the height of each node and collect the nodes with same height in 
+// a hash map; return the values of the hash map.
  var findLeaves = function(root) {
     let map = new Map();
-    dfs(root);
+    height(root);
+    console.log([...map.values()]);
     return [...map.values()];
 
-    function dfs(node) {
-        if(!node) return false;
-        dfs(node.left);
-        dfs(node.right);
-        const nodeHeight = height(node);
+    function height(node) {
+        if(!node) return 0;
+        const nodeHeight =  1 + Math.max(height(node.left), height(node.right));
         map.has(nodeHeight) ? map.get(nodeHeight).push(node.val) : map.set(nodeHeight, [node.val]);
-    }
-    console.log([...map.values()]);
+        return nodeHeight;
+     }
  }
 
- function height(node) {
-    if(!node) return 0;
-    return 1 + Math.max(height(node.left), height(node.right));
- }
 
 let root = new TreeNode(1);
 root.left = new TreeNode(2);
@@ -38,6 +39,7 @@ root.left.left = new TreeNode(4);
 root.left.right = new TreeNode(5);
 
 findLeaves(root);
+
 
 
  var findLeaves = function(root) {
