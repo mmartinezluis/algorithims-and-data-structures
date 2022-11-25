@@ -2,21 +2,23 @@
  * @param {string[]} tokens
  * @return {number}
  */
- var evalRPN = function(tokens) {)
+ var evalRPN = function(tokens) {
+    if(tokens.length < 2) return parseInt(tokens[0]);
     let stack = [];
     let results;
     for(let element of tokens) {
         if(operations[element] === undefined) {
-            stack.push(element);
+            stack.push(parseInt(element));
         } else {
             if(results === undefined) {
-                results = parseInt(stack.pop());
+                results = stack.pop();
             }
-            // results = stack.pop() + symbols[element] + results;
-            results = Math.ceil(operations[element](parseInt(stack.pop()), results));
+            results = operations[element](stack.pop(), results);
+            results = !Number.isInteger(results) && results  < 0 && results > -1 ? 0 : Math.floor(results);
         }
     }
     console.log(results)
+    return results;
 };
 
 const operations = {
@@ -27,5 +29,6 @@ const operations = {
 }
 
 tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
-
+tokens = ["3","11","+","5","-"]
+tokens = ["12", "7", "-"];
 evalRPN(tokens)
