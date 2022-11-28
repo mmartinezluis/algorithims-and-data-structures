@@ -36,16 +36,5 @@ function parseTime(timePoint) {
     return parseInt(time[0])*60 + parseInt(time[1]);
 }
 
-function minutes(time1, time2) {
-    console.log(time1, time2)
-    let difference = Math.abs(time1 - time2);
-    if(difference > 720) {
-        if(time1 > 720) {
-            difference = MAX_TIME - time1 + time2
-        } else difference = MAX_TIME - time2 + time1
-    }
-    return difference;
-}
-
 let timePoints = ["23:59","00:00"]
 findMinDifference(timePoints)
