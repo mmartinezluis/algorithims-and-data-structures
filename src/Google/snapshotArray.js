@@ -2,7 +2,9 @@
  * @param {number} length
  */
  var SnapshotArray = function(length) {
-    
+    this.values = new Array(length).fill(0);
+    this.snaps = new Map();
+    this.snaps_count = 0;
 };
 
 /** 
@@ -11,14 +13,16 @@
  * @return {void}
  */
 SnapshotArray.prototype.set = function(index, val) {
-    
+    this.values[index] = val;
 };
 
 /**
  * @return {number}
  */
 SnapshotArray.prototype.snap = function() {
-    
+    this.snaps.set(this.snaps_count, this.values.slice());
+    this.snaps_count += 1;
+    return this.snaps_count - 1;
 };
 
 /** 
@@ -27,7 +31,7 @@ SnapshotArray.prototype.snap = function() {
  * @return {number}
  */
 SnapshotArray.prototype.get = function(index, snap_id) {
-    
+  return this.snaps.get(snap_id)[index]
 };
 
 /** 
