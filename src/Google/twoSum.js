@@ -10,4 +10,4 @@ var twoSum = function(nums, target) {
 }
 
 // x + y = t
-// x - t = -y
+// t - x = y

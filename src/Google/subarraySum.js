@@ -39,7 +39,7 @@ var subarraySum = function(nums, k) {
 }
 
 
-// Using cumulative sum, contant space; solves the problem but runs out of time
+// Using cumulative sum, constant space; solves the problem but runs out of time
 var subarraySum = function(nums, k) {
     let count = 0;
     for(let start=0; start < nums.length; start++) {
