@@ -38,3 +38,13 @@ SnapshotArray.prototype.get = function(index, snap_id) {
     }
     return i === 0 && keys[i] > snap_id ? 0 : object.get(keys[i]) || 0;
 };
+//  Faster method
+SnapshotArray.prototype.get = function(index, snap_id) {
+    while(snap_id >= 0) {
+        if(this.snaps[index].has(snap_id)) {
+            return this.snaps[index].get(snap_id);
+        }
+        snap_id--;
+    }
+    return 0;
+};
