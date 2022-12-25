@@ -2,6 +2,16 @@
  * @param {number[][]} intervals
  * @return {number}
  */
+// Strategy:
+// Sort the intervals by starting time;
+// If two subsequent intervals overlap, it means will need an additional room
+// But before checking for overlapping, we need to check whether there is a
+// room already available from a previous interval.
+// To keep track of available rooms, we use a hasmap, setting the interval
+// end time as the key, and the end time frequency as the value;
+// To keep the order of the earliest available time we use a min heap;
+// When the frequency of an end time is depleted, we remove the min value
+// from the min heap
 var minMeetingRooms = function (intervals) {
   intervals = intervals.sort((a, b) => {
     if (a[0] - b[0] < 0) return -1;
