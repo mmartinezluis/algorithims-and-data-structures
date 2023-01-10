@@ -17,23 +17,26 @@ var numMatchingSubseq = function (s, words) {
     for (let i = 0; i < word.length; i++) {
       const letter = word[i];
       const index = word.charCodeAt(i) - 97;
+
       if (
         !bluePrint[index].length ||
         bluePrint[index][word.length - 1] <= lastIndex
       )
         break;
+      //   console.log(bluePrint[index][word.length - 1]);
+      console.log(bluePrint[index]);
       pointer = lastPosition.has(letter) ? lastPosition.get(letter) : 0;
-      while (bluePrint[index][pointer] < lastIndex) pointer++;
+      while (bluePrint[index][pointer] <= lastIndex) pointer++;
       lastIndex = bluePrint[index][pointer];
       if (i === word.length - 1) count++;
       lastPosition.set(letter, pointer);
     }
     lastIndex = -1;
   }
-  console.log(count);
+  //   console.log(count);
   return count;
 };
 
 let s = "abcde";
-let words = ["a", "bb", "acd"];
+let words = ["bb"];
 numMatchingSubseq(s, words);
