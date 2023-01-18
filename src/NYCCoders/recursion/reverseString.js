@@ -29,9 +29,6 @@ var reverseString = function (s) {
   return [...reverseString(s.slice(1)), s[0]];
 };
 
-let s = ["h", "e", "l", "l", "o"];
-reverseString(s);
-
 // Recursive solution
 var reverseString = function (s) {
   helper(s, 0, s.length - 1);

@@ -13,3 +13,17 @@ var numberOfSteps = function (num) {
     return recursive(num - 1);
   }
 };
+
+var numberOfSteps = function (num) {
+  if (num === 0) return 0;
+
+  if (num % 2 === 0) {
+    const steps = numberOfSteps(num / 2);
+    return 1 + steps;
+  } else {
+    const steps = numberOfSteps(num - 1);
+    return 1 + steps;
+  }
+};
+
+numberOfSteps(14);
